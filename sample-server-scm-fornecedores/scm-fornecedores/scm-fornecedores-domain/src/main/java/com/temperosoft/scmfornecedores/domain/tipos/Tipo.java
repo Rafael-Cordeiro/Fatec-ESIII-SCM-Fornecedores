@@ -1,4 +1,6 @@
-package com.temperosoft.scmfornecedores.domain;
+package com.temperosoft.scmfornecedores.domain.tipos;
+
+import com.temperosoft.scmfornecedores.domain.AbstractDomain;
 
 import lombok.Getter;
 import lombok.Setter;
