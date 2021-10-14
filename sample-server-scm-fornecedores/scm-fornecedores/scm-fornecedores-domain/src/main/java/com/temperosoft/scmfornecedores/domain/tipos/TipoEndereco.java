@@ -7,4 +7,5 @@ public class TipoEndereco extends Tipo {
 	public void setDescricao(TipoEnderecoEnum tipoEnderecoEnum) {
 		super.setDescricao(tipoEnderecoEnum.toString());
 	}
+	
 }

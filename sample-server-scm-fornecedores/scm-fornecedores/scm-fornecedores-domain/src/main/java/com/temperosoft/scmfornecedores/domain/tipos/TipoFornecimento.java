@@ -7,4 +7,5 @@ public class TipoFornecimento extends Tipo {
 	public void setDescricao(TipoFornecimentoEnum tipoFornecimentoEnum) {
 		super.setDescricao(tipoFornecimentoEnum.toString());
 	}
+	
 }

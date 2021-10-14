@@ -7,4 +7,5 @@ public class TipoCadastro extends Tipo {
 	public void setDescricao(TipoCadastroEnum tipoCadastroEnum) {
 		super.setDescricao(tipoCadastroEnum.toString());
 	}
+	
 }
