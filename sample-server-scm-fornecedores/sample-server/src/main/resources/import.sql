@@ -1,1 +1,0 @@
-insert into SCM_FORNECEDORES values(HIBERNATE_SEQUENCE.nextval, sysdate, 1, 'FOO', 'Bar');

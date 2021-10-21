@@ -11,9 +11,11 @@ import org.springframework.context.annotation.ComponentScan;
 @EnableAutoConfiguration
 @SpringBootApplication
 public class SampleServerApplication {
+	
 
 	public static void main(String[] args) {
 		System.setProperty("spring.devtools.restart.enabled", "false");
 		SpringApplication.run(SampleServerApplication.class, args);
 	}
+	
 }

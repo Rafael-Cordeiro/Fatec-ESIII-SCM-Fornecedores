@@ -1,6 +1,5 @@
 package com.temperosoft.scmfornecedores.domain;
 
-import com.temperosoft.scmfornecedores.domain.tipos.Tipo;
 import com.temperosoft.scmfornecedores.domain.tipos.TipoEndereco;
 import com.temperosoft.scmfornecedores.domain.tipos.TipoLogradouro;
 
@@ -9,7 +8,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class Endereco extends Tipo {
+public class Endereco extends AbstractDomain {
 
 	private String logradouro;
 	private String numero;

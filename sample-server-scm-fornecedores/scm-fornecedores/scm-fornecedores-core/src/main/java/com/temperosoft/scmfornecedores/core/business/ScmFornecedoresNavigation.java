@@ -6,19 +6,19 @@ import org.springframework.context.annotation.Configuration;
 
 import com.dvsmedeiros.bce.core.controller.impl.Navigation;
 import com.dvsmedeiros.bce.core.controller.impl.NavigationBuilder;
-import com.temperosoft.scmfornecedores.core.business.impl.ScmFornecedoresStrategy;
-import com.temperosoft.scmfornecedores.domain.ScmFornecedores;
+import com.temperosoft.scmfornecedores.core.business.impl.FooStrategy;
+import com.temperosoft.scmfornecedores.domain.Pais;
 
 @Configuration
 public class ScmFornecedoresNavigation {
 
 	@Autowired
-	private ScmFornecedoresStrategy validateCode;
+	private FooStrategy testeBanco;
 
-	@Bean(name = "SAVE_SCM_FORNECEDORES")
-	public Navigation<ScmFornecedores> generateReport() {
-		return new NavigationBuilder<ScmFornecedores>()
-				.next(validateCode)
+	@Bean(name = "FOO")
+	public Navigation<Pais> generateReport() {
+		return new NavigationBuilder<Pais>()
+				.next(testeBanco)
 				.build();
 	}
 
