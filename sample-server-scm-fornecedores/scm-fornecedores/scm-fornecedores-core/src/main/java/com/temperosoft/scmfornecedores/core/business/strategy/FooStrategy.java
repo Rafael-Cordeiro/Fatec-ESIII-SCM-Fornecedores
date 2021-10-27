@@ -1,4 +1,4 @@
-package com.temperosoft.scmfornecedores.core.business.impl;
+package com.temperosoft.scmfornecedores.core.business.strategy;
 
 import java.util.List;
 
@@ -9,30 +9,29 @@ import org.springframework.stereotype.Component;
 
 import com.dvsmedeiros.bce.core.controller.INavigationCase;
 import com.dvsmedeiros.bce.core.controller.business.IStrategy;
-import com.temperosoft.scmfornecedores.core.dao.impl.CidadeDAO;
-import com.temperosoft.scmfornecedores.core.dao.impl.FooDAO;
-import com.temperosoft.scmfornecedores.domain.Cidade;
+import com.temperosoft.scmfornecedores.core.dao.FooDAO;
+import com.temperosoft.scmfornecedores.domain.Pais;
 
 @Component
-public class CidadesStrategy implements IStrategy<Cidade> {
-
+public class FooStrategy implements IStrategy<Pais> {
+	
 	private Logger logger = LoggerFactory.getLogger(FooDAO.class);
 	
 	@Autowired
-	private CidadeDAO cidadeDAO;
-	
-	@Override
-	public void process(Cidade aEntity, INavigationCase<Cidade> aCase) {
+	private FooDAO fooDao;
 
+	@Override
+	public void process(Pais aEntity, INavigationCase<Pais> aCase) {
+		
 		try {
-			List<Cidade> cursos = cidadeDAO.test();
+			List<Pais> cursos = fooDao.test();
 			aCase.getResult().addEntity(cursos);
 			
 			logger.info("Listagem de cursos realizada");
 		} catch (Exception e) {
 			logger.info(e.getMessage());
 		}
-				
+		
 	}
 
 }
