@@ -5,7 +5,7 @@
 CREATE TABLE PAISES (
 	pai_id            SERIAL      NOT NULL,
 	pai_codigo        CHAR(3)     NOT NULL,
-	pai_descricao     VARCHAR(30) NOT NULL,
+	pai_descricao     VARCHAR(255) NOT NULL,
 	pai_tipo_cadastro CHAR(1)     NOT NULL,
 	CONSTRAINT PK_PAI PRIMARY KEY (pai_id),
 	CONSTRAINT UK_PAI_01 UNIQUE (pai_codigo),
@@ -17,7 +17,7 @@ CREATE TABLE PAISES (
 CREATE TABLE ESTADOS (
 	est_id            SERIAL      NOT NULL,
 	est_codigo        CHAR(2)     NOT NULL,
-	est_descricao     VARCHAR(30) NOT NULL,
+	est_descricao     VARCHAR(255) NOT NULL,
 	est_pai_id        INTEGER     NOT NULL,
 	est_tipo_cadastro CHAR(1)     NOT NULL,
 	CONSTRAINT PK_EST PRIMARY KEY (est_id),
@@ -32,7 +32,7 @@ CREATE TABLE ESTADOS (
 CREATE TABLE CIDADES (
 	cid_id            SERIAL      NOT NULL,
 	cid_codigo        CHAR(8)     NOT NULL,
-	cid_descricao     VARCHAR(30) NOT NULL,
+	cid_descricao     VARCHAR(255) NOT NULL,
 	cid_est_id        INTEGER     NOT NULL,
 	cid_tipo_cadastro CHAR(1)     NOT NULL,
 	CONSTRAINT PK_CID PRIMARY KEY (cid_id),

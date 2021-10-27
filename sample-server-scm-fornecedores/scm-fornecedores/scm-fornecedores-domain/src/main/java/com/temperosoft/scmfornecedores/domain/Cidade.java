@@ -9,6 +9,6 @@ public class Cidade extends AbstractDomain {
 
 	private String codigo;
 	private String descricao;
-	private Cidade cidade;
+	private Estado estado;
 	
 }

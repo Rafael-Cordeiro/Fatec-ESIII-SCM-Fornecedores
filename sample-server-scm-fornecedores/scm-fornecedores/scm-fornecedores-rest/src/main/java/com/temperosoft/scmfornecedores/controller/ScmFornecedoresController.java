@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.temperosoft.scmfornecedores.core.facade.Facade;
+import com.temperosoft.scmfornecedores.domain.Cidade;
 import com.temperosoft.scmfornecedores.domain.Pais;
 
 @RestController
@@ -25,6 +26,17 @@ public class ScmFornecedoresController {
 		Pais c = new Pais();
 		
 		List<Pais> cs = facade.testeBanco(c, "FOO");
+		
+		if(cs.isEmpty())
+			return ResponseEntity.unprocessableEntity().build();
+		return ResponseEntity.ok(cs);
+	}
+	
+	@GetMapping(value="/cidades", produces="application/json")
+	public @ResponseBody ResponseEntity<List<Cidade>> cidades() {
+		Cidade c = new Cidade();
+		
+		List<Cidade> cs = facade.testeBanco(c, "CONSULTAR_CIDADES");
 		
 		if(cs.isEmpty())
 			return ResponseEntity.unprocessableEntity().build();

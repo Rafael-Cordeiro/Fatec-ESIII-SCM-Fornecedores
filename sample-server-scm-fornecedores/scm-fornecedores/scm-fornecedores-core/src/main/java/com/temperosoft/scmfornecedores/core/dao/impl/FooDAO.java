@@ -15,7 +15,7 @@ import com.temperosoft.scmfornecedores.domain.tipos.TipoCadastro;
 import com.temperosoft.scmfornecedores.domain.utils.EnumUtils;
 
 @Component
-public class FooDao {
+public class FooDAO {
 	
 	@Autowired
 	private JdbcTemplate jdbcTemplate;

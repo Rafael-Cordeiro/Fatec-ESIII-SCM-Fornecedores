@@ -9,29 +9,30 @@ import org.springframework.stereotype.Component;
 
 import com.dvsmedeiros.bce.core.controller.INavigationCase;
 import com.dvsmedeiros.bce.core.controller.business.IStrategy;
+import com.temperosoft.scmfornecedores.core.dao.impl.CidadeDAO;
 import com.temperosoft.scmfornecedores.core.dao.impl.FooDAO;
-import com.temperosoft.scmfornecedores.domain.Pais;
+import com.temperosoft.scmfornecedores.domain.Cidade;
 
 @Component
-public class FooStrategy implements IStrategy<Pais> {
-	
+public class CidadesStrategy implements IStrategy<Cidade> {
+
 	private Logger logger = LoggerFactory.getLogger(FooDAO.class);
 	
 	@Autowired
-	private FooDAO fooDao;
-
+	private CidadeDAO cidadeDAO;
+	
 	@Override
-	public void process(Pais aEntity, INavigationCase<Pais> aCase) {
-		
+	public void process(Cidade aEntity, INavigationCase<Cidade> aCase) {
+
 		try {
-			List<Pais> cursos = fooDao.test();
+			List<Cidade> cursos = cidadeDAO.test();
 			aCase.getResult().addEntity(cursos);
 			
 			logger.info("Listagem de cursos realizada");
 		} catch (Exception e) {
 			logger.info(e.getMessage());
 		}
-		
+				
 	}
 
 }
