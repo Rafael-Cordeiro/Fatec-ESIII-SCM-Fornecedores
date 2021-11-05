@@ -8,4 +8,13 @@ public class TipoFornecimento extends Tipo {
 		super.setDescricao(tipoFornecimentoEnum.toString());
 	}
 	
+	public TipoFornecimentoEnum getDescricaoEmum() throws Exception {
+		if(super.getDescricao().equals("PRODUTOS"))
+			return TipoFornecimentoEnum.PRODUTOS;
+		if(super.getDescricao().equals("SERVICOS"))
+			return TipoFornecimentoEnum.SERVICOS;
+		else
+			throw new Exception("TipoFornecimento registrado é invalido");
+	}
+	
 }

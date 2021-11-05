@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 
 import com.dvsmedeiros.bce.core.controller.INavigationCase;
 import com.dvsmedeiros.bce.core.controller.business.IStrategy;
-import com.temperosoft.scmfornecedores.core.dao.FooDAO;
+import com.temperosoft.scmfornecedores.core.business.dao.FooDAO;
 import com.temperosoft.scmfornecedores.domain.Pais;
 
 @Component

@@ -15,6 +15,7 @@ public class Endereco extends AbstractDomain {
 	private String bairro;
 	private String cep;
 	private String complemento;
+	private Cidade cidade;
 	private TipoEndereco tipoEndereco;
 	private TipoLogradouro tipoLogradouro;
 	

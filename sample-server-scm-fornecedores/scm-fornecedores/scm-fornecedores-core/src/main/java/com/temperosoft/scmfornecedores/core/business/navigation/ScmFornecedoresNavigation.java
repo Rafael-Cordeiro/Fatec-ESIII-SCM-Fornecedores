@@ -1,4 +1,4 @@
-package com.temperosoft.scmfornecedores.core.business;
+package com.temperosoft.scmfornecedores.core.business.navigation;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -6,9 +6,7 @@ import org.springframework.context.annotation.Configuration;
 
 import com.dvsmedeiros.bce.core.controller.impl.Navigation;
 import com.dvsmedeiros.bce.core.controller.impl.NavigationBuilder;
-import com.temperosoft.scmfornecedores.core.business.strategy.CidadesStrategy;
 import com.temperosoft.scmfornecedores.core.business.strategy.FooStrategy;
-import com.temperosoft.scmfornecedores.domain.Cidade;
 import com.temperosoft.scmfornecedores.domain.Pais;
 
 @Configuration
@@ -17,20 +15,10 @@ public class ScmFornecedoresNavigation {
 	@Autowired
 	private FooStrategy testeBanco;
 	
-	@Autowired
-	private CidadesStrategy cidadesStrategy;
-
 	@Bean(name = "FOO")
 	public Navigation<Pais> foo() {
 		return new NavigationBuilder<Pais>()
 				.next(testeBanco)
-				.build();
-	}
-	
-	@Bean(name = "CONSULTAR_CIDADES")
-	public Navigation<Cidade> consultarCidades() {
-		return new NavigationBuilder<Cidade>()
-				.next(cidadesStrategy)
 				.build();
 	}
 

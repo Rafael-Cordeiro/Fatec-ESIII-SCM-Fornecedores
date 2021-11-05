@@ -1,4 +1,4 @@
-package com.temperosoft.scmfornecedores.core.dao;
+package com.temperosoft.scmfornecedores.core.business.dao;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
