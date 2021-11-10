@@ -5,26 +5,71 @@ import java.sql.SQLException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Component;
 
+import com.temperosoft.scmfornecedores.core.utils.ValidationUtils;
 import com.temperosoft.scmfornecedores.domain.Cidade;
 import com.temperosoft.scmfornecedores.domain.Endereco;
 import com.temperosoft.scmfornecedores.domain.Fornecedor;
+import com.temperosoft.scmfornecedores.domain.enums.TipoCadastroEnum;
+import com.temperosoft.scmfornecedores.domain.enums.TipoEnderecoEnum;
 import com.temperosoft.scmfornecedores.domain.tipos.TipoCadastro;
 import com.temperosoft.scmfornecedores.domain.tipos.TipoEndereco;
 import com.temperosoft.scmfornecedores.domain.tipos.TipoLogradouro;
-import com.temperosoft.scmfornecedores.domain.utils.EnumUtils;
 
 @Component
 public class FornecedorDAO extends AbstractDAO<Fornecedor> {
 	
 	@Autowired
 	private CidadeDAO cidadeDAO;
+	
+	public FornecedorDAO() {
+        table = "FORNECEDORES";
+        idTable = "for_id";
+        alias = "for1";
+	}
 
 	@Override
-	public Long create(Fornecedor aEntity) {
+	public Long create(Fornecedor aEntity) throws DataAccessException, Exception {
+		StringBuilder sql = new StringBuilder();
+		
+		sql.append("INSERT INTO ").append(table).append(" (")
+		.append("for_razao_social, ")
+		.append("for_nome_fantasia, ")
+		.append("for_codigo, ")
+		.append("for_tipo_endereco, ")
+		.append("for_logradouro, ")
+		.append("for_tipo_logradouro, ")
+		.append("for_numero, ")
+		.append("for_bairro, ")
+		.append("for_cep, ")
+		.append("for_complemento, ")
+		.append("for_cid_id, ")
+		.append("for_tipo_cadastro")
+		.append(") VALUES ")
+		.append("(?,?,?,?,?,?,?,?,?,?,?,?)");
+		
+		return (long) getJdbcTemplate().update(sql.toString(),
+				aEntity.getRazaoSocial(),
+				aEntity.getNomeFantasia(),
+				aEntity.getCodigo(),
+				TipoEnderecoEnum.atLiteral(aEntity.getEndereco().getTipoEndereco().getDescricao()).getSymbol(),
+				aEntity.getEndereco().getLogradouro(),
+				aEntity.getEndereco().getTipoLogradouro().getDescricao(),
+				aEntity.getEndereco().getNumero(),
+				aEntity.getEndereco().getBairro(),
+				aEntity.getEndereco().getCep(),
+				aEntity.getEndereco().getComplemento(),
+				ValidationUtils.returnIdOrNull(aEntity.getEndereco().getCidade()),
+				TipoCadastroEnum.atLiteral(aEntity.getTipoCadastro().getDescricao()).getSymbol()
+				);
+	}
+
+	@Override
+	public Long update(Fornecedor aEntity) throws DataAccessException, Exception {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -55,7 +100,7 @@ public class FornecedorDAO extends AbstractDAO<Fornecedor> {
 			Endereco endereco = new BeanPropertyRowMapper<>(Endereco.class).mapRow(rs, rowNum);
 
 			TipoEndereco tipoEndereco = new BeanPropertyRowMapper<>(TipoEndereco.class).mapRow(rs, rowNum);
-			tipoEndereco.setDescricao(EnumUtils.getTipoEnderecoEnum(rs.getString("for_tipo_endereco")));
+			tipoEndereco.setDescricao(TipoEnderecoEnum.atSymbol(rs.getString("for_tipo_endereco")).getLiteral());
 
 			endereco.setTipoEndereco(tipoEndereco);
 			endereco.setLogradouro(rs.getString("for_logradouro"));
@@ -76,7 +121,7 @@ public class FornecedorDAO extends AbstractDAO<Fornecedor> {
 			fornecedor.setEndereco(endereco);
 			
 			TipoCadastro tipoCadastroFor = new BeanPropertyRowMapper<>(TipoCadastro.class).mapRow(rs, rowNum);
-			tipoCadastroFor.setDescricao(EnumUtils.getTipoCadastroEnum(rs.getString("for_tipo_cadastro")));
+			tipoCadastroFor.setDescricao(TipoCadastroEnum.atSymbol(rs.getString("for_tipo_cadastro")).getLiteral());
 			
 			fornecedor.setTipoCadastro(tipoCadastroFor);
 			

@@ -53,7 +53,7 @@ CREATE TABLE FORNECEDORES (
 	for_tipo_logradouro VARCHAR(20)  NOT NULL,
 	for_numero          VARCHAR(6)   NOT NULL,
 	for_bairro          VARCHAR(20)  NOT NULL,
-	for_cep             VARCHAR(8)   NOT NULL,
+	for_cep             VARCHAR(10)   NOT NULL,
 	for_complemento     VARCHAR(20)  NOT NULL,
 	for_cid_id          INTEGER      NOT NULL,
 	for_tipo_cadastro   CHAR(1)      NOT NULL,

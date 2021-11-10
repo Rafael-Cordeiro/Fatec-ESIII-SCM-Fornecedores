@@ -4,6 +4,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
+import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Component;
@@ -11,14 +12,20 @@ import org.springframework.stereotype.Component;
 import com.temperosoft.scmfornecedores.domain.Cidade;
 import com.temperosoft.scmfornecedores.domain.Estado;
 import com.temperosoft.scmfornecedores.domain.Pais;
+import com.temperosoft.scmfornecedores.domain.enums.TipoCadastroEnum;
 import com.temperosoft.scmfornecedores.domain.tipos.TipoCadastro;
-import com.temperosoft.scmfornecedores.domain.utils.EnumUtils;
 
 @Component
 public class CidadeDAO extends AbstractDAO<Cidade> {
 	
 	@Override
 	public Long create(Cidade aEntity) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
+	@Override
+	public Long update(Cidade aEntity) throws DataAccessException, Exception {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -80,7 +87,7 @@ public class CidadeDAO extends AbstractDAO<Cidade> {
 			cidade.setDescricao(rs.getString("cid_descricao"));
 			
 			TipoCadastro tipoCadastroCid = new BeanPropertyRowMapper<>(TipoCadastro.class).mapRow(rs, rowNum);
-			tipoCadastroCid.setDescricao(EnumUtils.getTipoCadastroEnum(rs.getString("cid_tipo_cadastro")));
+			tipoCadastroCid.setDescricao(TipoCadastroEnum.atSymbol(rs.getString("cid_tipo_cadastro")).getLiteral());
 
 			cidade.setTipoCadastro(tipoCadastroCid);
 			
@@ -90,7 +97,7 @@ public class CidadeDAO extends AbstractDAO<Cidade> {
 			estado.setDescricao(rs.getString("est_descricao"));
 			
 			TipoCadastro tipoCadastroEst = new BeanPropertyRowMapper<>(TipoCadastro.class).mapRow(rs, rowNum);
-			tipoCadastroEst.setDescricao(EnumUtils.getTipoCadastroEnum(rs.getString("est_tipo_cadastro")));
+			tipoCadastroEst.setDescricao(TipoCadastroEnum.atSymbol(rs.getString("est_tipo_cadastro")).getLiteral());
 			
 			estado.setTipoCadastro(tipoCadastroEst);
 			
@@ -100,7 +107,7 @@ public class CidadeDAO extends AbstractDAO<Cidade> {
 			pais.setDescricao(rs.getString("pai_descricao"));
 			
 			TipoCadastro tipoCadastoPai = new BeanPropertyRowMapper<>(TipoCadastro.class).mapRow(rs, rowNum);
-			tipoCadastoPai.setDescricao(EnumUtils.getTipoCadastroEnum(rs.getString("pai_tipo_cadastro")));
+			tipoCadastoPai.setDescricao(TipoCadastroEnum.atSymbol(rs.getString("pai_tipo_cadastro")).getLiteral());
 			
 			pais.setTipoCadastro(tipoCadastoPai);
 			
@@ -123,7 +130,7 @@ public class CidadeDAO extends AbstractDAO<Cidade> {
             cidade.setDescricao(rs.getString("cid_descricao"));
             
             TipoCadastro tipoCadastro = new BeanPropertyRowMapper<>(TipoCadastro.class).mapRow(rs, rowNum);
-            tipoCadastro.setDescricao(EnumUtils.getTipoCadastroEnum(rs.getString("cid_tipo_cadastro")));
+            tipoCadastro.setDescricao(TipoCadastroEnum.atSymbol(rs.getString("cid_tipo_cadastro")).getLiteral());
             
             cidade.setTipoCadastro(tipoCadastro);
 

@@ -22,6 +22,14 @@ public class EnumUtils {
 		}
 	}
 	
+	public static String getTipoCadastroSymbol(TipoCadastroEnum arg) {
+		
+		if (arg == TipoCadastroEnum.RASCUNHO) return "R";
+		if (arg == TipoCadastroEnum.ATIVO) return "A";
+		if (arg == TipoCadastroEnum.INATIVO) return "I";
+		throw new InvalidParameterException("Argumento de consulta de símbolo de TipoCadastroEnum inválido");
+	}
+	
 	public static TipoEnderecoEnum getTipoEnderecoEnum(String arg) {
 		
 		switch(arg.charAt(0)) {
@@ -36,16 +44,31 @@ public class EnumUtils {
 		}
 	}
 	
+	public static String getTipoEnderecoSymbol(TipoEnderecoEnum arg) {
+		
+		if (arg == TipoEnderecoEnum.GALPAO) return "G";
+		if (arg == TipoEnderecoEnum.SALA_COMERCIAL) return "S";
+		if (arg == TipoEnderecoEnum.EDIFICIO) return "E";
+		throw new InvalidParameterException("Argumento de consulta de símbolo de TipoEnderecoEnum inválido");
+	}
+	
 	public static TipoFornecimentoEnum getTipoFornecimentoEnum(String arg) {
 		
 		switch(arg.charAt(0)) {
 		case 'P':
-			return TipoFornecimentoEnum.PRODUTOS;
+			return TipoFornecimentoEnum.PRODUTO;
 		case 'S':
-			return TipoFornecimentoEnum.SERVICOS;
+			return TipoFornecimentoEnum.SERVICO;
 		default:
 			throw new InvalidParameterException("Argumento de consulta de TipoFornecimentoEnum inválido");
 		}
+	}
+	
+	public static String getTipoFornecimentoSymbol(TipoFornecimentoEnum arg) {
+		
+		if (arg == TipoFornecimentoEnum.PRODUTO) return "P";
+		if (arg == TipoFornecimentoEnum.SERVICO) return "S";
+		throw new InvalidParameterException("Argumento de consulta de símbolo de TipoFornecimentoEnum inválido");
 	}
 	
 }

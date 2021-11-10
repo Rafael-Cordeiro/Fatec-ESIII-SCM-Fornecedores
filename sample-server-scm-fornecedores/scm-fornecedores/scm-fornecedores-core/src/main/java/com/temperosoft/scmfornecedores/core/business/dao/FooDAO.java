@@ -11,8 +11,8 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Component;
 
 import com.temperosoft.scmfornecedores.domain.Pais;
+import com.temperosoft.scmfornecedores.domain.enums.TipoCadastroEnum;
 import com.temperosoft.scmfornecedores.domain.tipos.TipoCadastro;
-import com.temperosoft.scmfornecedores.domain.utils.EnumUtils;
 
 @Component
 public class FooDAO {
@@ -39,7 +39,7 @@ public class FooDAO {
             pais.setDescricao(rs.getString("pai_descricao"));
             
             TipoCadastro tipoCadastro = new BeanPropertyRowMapper<>(TipoCadastro.class).mapRow(rs, rowNum);
-            tipoCadastro.setDescricao(EnumUtils.getTipoCadastroEnum(rs.getString("pai_tipo_cadastro")));
+            tipoCadastro.setDescricao(TipoCadastroEnum.atSymbol(rs.getString("pai_tipo_cadastro")).getLiteral());
             
             pais.setTipoCadastro(tipoCadastro);
 

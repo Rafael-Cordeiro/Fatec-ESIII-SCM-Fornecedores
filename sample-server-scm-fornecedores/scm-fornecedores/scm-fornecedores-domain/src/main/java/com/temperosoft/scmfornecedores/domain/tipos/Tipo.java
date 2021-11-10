@@ -6,7 +6,7 @@ public abstract class Tipo implements IEntity {
 	
 	private String descricao;
 
-	protected String getDescricao() {
+	public String getDescricao() {
 		return descricao;
 	}
 

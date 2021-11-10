@@ -44,4 +44,14 @@ public class Facade implements IFacade {
 		return optional.isPresent() ? optional.get() : null;
 	}
 	
+	@Transactional
+	public <T extends AbstractDomain> void createEntity(T aEntity, String businessCaseName) {
+		
+		BusinessCase<T> aCase = new BusinessCaseBuilder().withName(businessCaseName);
+		navigator.run(aEntity, aCase);
+		
+		if(aCase.getResult().getMessage() != null)
+			throw new InvalidStrategyConditionException(aCase.getResult().getMessage());
+	}
+	
 }
