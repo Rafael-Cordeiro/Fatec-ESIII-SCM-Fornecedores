@@ -70,14 +70,55 @@ public class FornecedorDAO extends AbstractDAO<Fornecedor> {
 
 	@Override
 	public Long update(Fornecedor aEntity) throws DataAccessException, Exception {
-		// TODO Auto-generated method stub
-		return null;
+		
+		StringBuilder sql = new StringBuilder();
+		
+		sql.append("UPDATE ").append(table).append(" SET ")
+		.append("for_razao_social = ?, ")
+		.append("for_nome_fantasia = ?, ")
+		.append("for_codigo = ?, ")
+		.append("for_tipo_endereco = ?, ")
+		.append("for_logradouro = ?, ")
+		.append("for_tipo_logradouro = ?, ")
+		.append("for_numero = ?, ")
+		.append("for_bairro = ?, ")
+		.append("for_cep = ?, ")
+		.append("for_complemento = ?, ")
+		.append("for_cid_id = ?, ")
+		.append("for_tipo_cadastro = ? ")
+		.append("WHERE ").append(idTable).append(" = ?");
+		
+		return (long) getJdbcTemplate().update(sql.toString(),
+				aEntity.getRazaoSocial(),
+				aEntity.getNomeFantasia(),
+				aEntity.getCodigo(),
+				TipoEnderecoEnum.atLiteral(aEntity.getEndereco().getTipoEndereco().getDescricao()).getSymbol(),
+				aEntity.getEndereco().getLogradouro(),
+				aEntity.getEndereco().getTipoLogradouro().getDescricao(),
+				aEntity.getEndereco().getNumero(),
+				aEntity.getEndereco().getBairro(),
+				aEntity.getEndereco().getCep(),
+				aEntity.getEndereco().getComplemento(),
+				ValidationUtils.returnIdOrNull(aEntity.getEndereco().getCidade()),
+				TipoCadastroEnum.atLiteral(aEntity.getTipoCadastro().getDescricao()).getSymbol(),
+				aEntity.getId()
+		);
 	}
 	
 	@Override
 	public Fornecedor findById(Long id) {
-		// TODO Auto-generated method stub
-		return null;
+		StringBuilder sql = new StringBuilder();
+		
+		sql.append("SELECT * FROM ")
+		.append(table)
+		.append(" AS ")
+		.append(alias)
+		.append(" WHERE ")
+		.append(alias)
+		.append(".for_id = ")
+		.append(id);
+		
+		return getJdbcTemplate().queryForObject(sql.toString(), new FornecedorRowMapper());
 	}
 
 	@Override

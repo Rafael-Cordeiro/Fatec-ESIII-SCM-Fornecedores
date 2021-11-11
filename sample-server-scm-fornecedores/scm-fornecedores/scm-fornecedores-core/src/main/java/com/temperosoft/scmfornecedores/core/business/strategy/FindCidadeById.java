@@ -13,7 +13,7 @@ import com.temperosoft.scmfornecedores.domain.Cidade;
 @Component
 public class FindCidadeById implements IStrategy<Cidade> {
 	
-	private Logger logger = LoggerFactory.getLogger(FindCidadeByCodigo.class);
+	private Logger logger = LoggerFactory.getLogger(FindCidadeById.class);
 	
 	@Autowired
 	private CidadeDAO cidadeDAO;

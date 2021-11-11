@@ -45,7 +45,7 @@ public class Facade implements IFacade {
 	}
 	
 	@Transactional
-	public <T extends AbstractDomain> void createEntity(T aEntity, String businessCaseName) {
+	public <T extends AbstractDomain> void persistsEntity(T aEntity, String businessCaseName) {
 		
 		BusinessCase<T> aCase = new BusinessCaseBuilder().withName(businessCaseName);
 		navigator.run(aEntity, aCase);
