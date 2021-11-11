@@ -6,6 +6,7 @@ import org.springframework.context.annotation.Configuration;
 
 import com.dvsmedeiros.bce.core.controller.impl.Navigation;
 import com.dvsmedeiros.bce.core.controller.impl.NavigationBuilder;
+import com.temperosoft.scmfornecedores.core.business.strategy.DesativarFornecedor;
 import com.temperosoft.scmfornecedores.core.business.strategy.FindAllFornecedores;
 import com.temperosoft.scmfornecedores.core.business.strategy.FindFornecedorById;
 import com.temperosoft.scmfornecedores.core.business.strategy.PersisteFornecedor;
@@ -15,13 +16,16 @@ import com.temperosoft.scmfornecedores.domain.Fornecedor;
 public class FornecedorNavigation {
 	
 	@Autowired
-	private PersisteFornecedor persisteFornecedor;
-
-	@Autowired
 	private FindAllFornecedores findAllFornecedores;
 	
 	@Autowired
 	private FindFornecedorById findFornecedorById;
+	
+	@Autowired
+	private PersisteFornecedor persisteFornecedor;
+	
+	@Autowired
+	private DesativarFornecedor desativarFornecedor;
 	
 	@Bean(name="PERSISTE_FORNECEDOR")
 	public Navigation<Fornecedor> persistirFornecedor() {
@@ -43,4 +47,12 @@ public class FornecedorNavigation {
 				.next(findFornecedorById)
 				.build();
 	}
+	
+	@Bean(name="DESATIVAR_FORNECEDOR")
+	public Navigation<Fornecedor> desativarFornecedor() {
+		return new NavigationBuilder<Fornecedor>()
+				.next(desativarFornecedor)
+				.build();
+	}
+	
 }

@@ -18,18 +18,12 @@ import com.temperosoft.scmfornecedores.domain.tipos.TipoCadastro;
 @Component
 public class CidadeDAO extends AbstractDAO<Cidade> {
 	
-	@Override
-	public Long create(Cidade aEntity) {
-		// TODO Auto-generated method stub
-		return null;
+	public CidadeDAO() {
+		table = "CIDADES";
+		idTable = "cid_id";
+		alias = "cid1";
 	}
 	
-	@Override
-	public Long update(Cidade aEntity) throws DataAccessException, Exception {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
 	@Override
 	public List<Cidade> findAll() {
 		String sql = "SELECT * FROM CIDADES ORDER BY cid_est_id";
@@ -74,6 +68,24 @@ public class CidadeDAO extends AbstractDAO<Cidade> {
 		.append("WHERE cid_est_id = ").append(estId);
 		
 		return getJdbcTemplate().query(sql.toString(), new CidadeRowMapper());
+	}
+	
+	@Override
+	public Long create(Cidade aEntity) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
+	@Override
+	public Long update(Cidade aEntity) throws DataAccessException, Exception {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
+	@Override
+	public Long delete(String status, Long id) throws DataAccessException, Exception {
+		// TODO Auto-generated method stub
+		return null;
 	}
 	
 	class CidadeRowMapper implements RowMapper<Cidade> {

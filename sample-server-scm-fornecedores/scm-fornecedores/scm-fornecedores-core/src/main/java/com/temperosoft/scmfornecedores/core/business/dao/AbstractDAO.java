@@ -18,11 +18,20 @@ public abstract class AbstractDAO<T extends AbstractDomain> implements IDAO<T> {
 	protected String table;
 	protected String idTable;
 	protected String alias;
+	protected String trigram;
 	
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
 	
 	@Autowired
 	private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
+	
+	public String updateStatusQuery() {
+		StringBuilder sql = new StringBuilder();
+		sql.append("UPDATE ").append(table)
+		.append(" SET ").append(trigram).append("_tipo_cadastro").append(" = ? ")
+		.append("WHERE ").append(idTable).append(" = ?");
+		return sql.toString();
+	}
 
 }
