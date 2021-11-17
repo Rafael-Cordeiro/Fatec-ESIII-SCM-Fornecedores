@@ -55,12 +55,13 @@ public class Facade implements IFacade {
 	}
 	
 	@Transactional
-	public <T extends AbstractDomain> Boolean inactivateEntity(T aEntity, String businessCaseName) {
+	public <T extends AbstractDomain> void inactivateEntity(T aEntity, String businessCaseName) {
 		
 		BusinessCase<T> aCase = new BusinessCaseBuilder().withName(businessCaseName);
 		navigator.run(aEntity, aCase);
 		
-		return !aCase.isSuspendExecution();
+		if (aCase.isSuspendExecution())
+			throw new InvalidStrategyConditionException(aCase.getResult().getMessage());
 	}
 	
 }

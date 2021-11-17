@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -21,6 +22,7 @@ import com.temperosoft.scmfornecedores.domain.Fornecedor;
 
 @RestController
 @RequestMapping("fornecedor")
+@CrossOrigin(origins="*")
 public class FornecedorController {
 	
 	@Autowired
@@ -82,10 +84,9 @@ public class FornecedorController {
 		f.setId(id);
 		
 		try {
-			if (Boolean.FALSE.equals(facade.inactivateEntity(f, "DESATIVAR_FORNECEDOR")))
-				return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+			facade.inactivateEntity(f, "DESATIVAR_FORNECEDOR");
 		} catch (InvalidStrategyConditionException e) {
-			return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(e.getMessage());
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
 		}
 
 		return ResponseEntity.ok().build();
