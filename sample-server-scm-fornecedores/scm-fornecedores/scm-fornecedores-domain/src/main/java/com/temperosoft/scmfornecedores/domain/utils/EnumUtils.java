@@ -4,7 +4,6 @@ import java.security.InvalidParameterException;
 
 import com.temperosoft.scmfornecedores.domain.enums.TipoCadastroEnum;
 import com.temperosoft.scmfornecedores.domain.enums.TipoEnderecoEnum;
-import com.temperosoft.scmfornecedores.domain.enums.TipoFornecimentoEnum;
 
 public class EnumUtils {
 
@@ -50,25 +49,6 @@ public class EnumUtils {
 		if (arg == TipoEnderecoEnum.SALA_COMERCIAL) return "S";
 		if (arg == TipoEnderecoEnum.EDIFICIO) return "E";
 		throw new InvalidParameterException("Argumento de consulta de símbolo de TipoEnderecoEnum inválido");
-	}
-	
-	public static TipoFornecimentoEnum getTipoFornecimentoEnum(String arg) {
-		
-		switch(arg.charAt(0)) {
-		case 'P':
-			return TipoFornecimentoEnum.PRODUTO;
-		case 'S':
-			return TipoFornecimentoEnum.SERVICO;
-		default:
-			throw new InvalidParameterException("Argumento de consulta de TipoFornecimentoEnum inválido");
-		}
-	}
-	
-	public static String getTipoFornecimentoSymbol(TipoFornecimentoEnum arg) {
-		
-		if (arg == TipoFornecimentoEnum.PRODUTO) return "P";
-		if (arg == TipoFornecimentoEnum.SERVICO) return "S";
-		throw new InvalidParameterException("Argumento de consulta de símbolo de TipoFornecimentoEnum inválido");
 	}
 	
 }

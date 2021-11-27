@@ -15,6 +15,6 @@ public class Fornecedor extends AbstractDomain {
 	private Endereco endereco;
 	private List<Contato> contatos;
 	private List<Documento> documentos;
-	private List<Fornecivel> forneciveis;
+	private List<Produto> produtos;
 	
 }

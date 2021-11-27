@@ -6,19 +6,19 @@ import org.springframework.context.annotation.Configuration;
 
 import com.dvsmedeiros.bce.core.controller.impl.Navigation;
 import com.dvsmedeiros.bce.core.controller.impl.NavigationBuilder;
-import com.temperosoft.scmfornecedores.core.business.strategy.FindForneciveisByTipo;
-import com.temperosoft.scmfornecedores.domain.Fornecivel;
+import com.temperosoft.scmfornecedores.core.business.strategy.FindProdutos;
+import com.temperosoft.scmfornecedores.domain.Produto;
 
 @Configuration
-public class FornecivelNavigation {
+public class ProdutoNavigation {
 
 	@Autowired
-	private FindForneciveisByTipo findForneciveisByTipo;
+	private FindProdutos findProdutos;
 	
-	@Bean(name="CONSULTAR_FORNECIVEIS_POR_TIPO")
-	public Navigation<Fornecivel> consultarForneciveisPorTipo() {
-		return new NavigationBuilder<Fornecivel>()
-				.next(findForneciveisByTipo)
+	@Bean(name="CONSULTAR_PRODUTOS")
+	public Navigation<Produto> consultarForneciveisPorTipo() {
+		return new NavigationBuilder<Produto>()
+				.next(findProdutos)
 				.build();
 	}
 }

@@ -5,8 +5,6 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Base64;
 
-import com.temperosoft.scmfornecedores.domain.enums.TipoFornecimentoEnum;
-
 @SuppressWarnings("unused")
 public class Test {
 	public static void main(String[] args) {
