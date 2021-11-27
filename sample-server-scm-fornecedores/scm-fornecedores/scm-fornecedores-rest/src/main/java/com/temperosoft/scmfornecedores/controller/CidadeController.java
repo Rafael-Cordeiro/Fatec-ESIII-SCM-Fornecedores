@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -18,6 +19,7 @@ import com.temperosoft.scmfornecedores.domain.Estado;
 
 @RestController
 @RequestMapping("cidade")
+@CrossOrigin(origins="*")
 public class CidadeController {
 	
 	@Autowired
@@ -53,7 +55,7 @@ public class CidadeController {
 		return ResponseEntity.ok(c);
 	}
 	
-	@GetMapping(value="/find-all-cidades", produces="application/json")
+	@GetMapping(value="", produces="application/json")
 	public @ResponseBody ResponseEntity<List<Cidade>> findAllCidades() {
 		
 		Cidade c = new Cidade();
@@ -69,7 +71,6 @@ public class CidadeController {
 	public @ResponseBody ResponseEntity<List<Cidade>> findCidadesByEstado(@RequestParam(name = "id") Long id) {
 		
 		Cidade c = new Cidade();
-		
 		c.setEstado(new Estado());
 		c.getEstado().setId(id);
 		

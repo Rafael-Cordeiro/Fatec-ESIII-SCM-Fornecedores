@@ -114,13 +114,12 @@ CREATE TABLE FORNECEDORES_FORNECIVEIS (
 -- 5
 CREATE TABLE FORNECIVEIS (
 	fnv_id              SERIAL       NOT NULL,
-	fnv_tipo            CHAR(1)      NOT NULL,
 	fnv_codigo          VARCHAR(20)  NOT NULL,
 	fnv_descricao       VARCHAR(255) NOT NULL,
-	fnv_tipo_fornecivel CHAR(1)      NOT NULL,
+	fnv_tipo            CHAR(1)      NOT NULL,
 	fnv_tipo_cadastro   CHAR(1)      NOT NULL,
 	CONSTRAINT PK_FNV PRIMARY KEY (fnv_id),
 	CONSTRAINT UK_FNV_01 UNIQUE (fnv_codigo),
 	CONSTRAINT CK_FNV_01 CHECK (fnv_tipo_cadastro IN ('R','A','I')),
-	CONSTRAINT CK_FNV_02 CHECK (fnv_tipo_fornecivel IN ('P','S'))
+	CONSTRAINT CK_FNV_02 CHECK (fnv_tipo IN ('P','S'))
 );

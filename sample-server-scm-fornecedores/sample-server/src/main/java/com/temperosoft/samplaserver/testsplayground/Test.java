@@ -15,8 +15,13 @@ public class Test {
 //		DiaSemana dia = DiaSemana.DOMINGO;
 //		System.out.println(dia.toString() + " - " + dia.getValor() + " - " + dia.getSimbolo());
 
-		TipoFornecimentoEnum tipo = TipoFornecimentoEnum.atSymbol("S");
-		System.out.println(tipo.getLiteral());
+//		TipoFornecimentoEnum tipo = TipoFornecimentoEnum.atSymbol("S");
+//		System.out.println(tipo.getLiteral());
+		
+		FooThread thread1 = new FooThread("Thread #1", 600);
+		FooThread thread2 = new FooThread("Thread #2", 900);
+		FooThread thread3 = new FooThread("Thread #3", 100);
+		
 	}
 	
 	private static void imprimeDiaSemana(int dia) {
