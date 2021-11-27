@@ -1,5 +1,6 @@
--- POSTGRESQL
-
+-- Script de comandos DDL para a criação das tabelas das entidades do sistema no banco de dados
+-- SGBD: POSTGRESQL
+-- Obs: os comentários acima das tabelas com o número indicam a ordem na qual as tabelas devem ser criadas. Atente-se a criar todas as tabelas de mesmo número para, assim, criar as tabelas do número seguinte.
 
 -- 1
 CREATE TABLE PAISES (
@@ -99,27 +100,36 @@ CREATE TABLE DOCUMENTOS (
 );
 
 -- 6
-CREATE TABLE FORNECEDORES_FORNECIVEIS (
-	for_fnv_id      SERIAL  NOT NULL,
-	for_fnv_for_id  INTEGER NOT NULL,
-	for_fnv_fnv_id  INTEGER NOT NULL,
-	for_fnv_data_inicio DATE,
-	CONSTRAINT PK_FOR_FNV PRIMARY KEY (for_fnv_id),
-	CONSTRAINT FK_FOR_FNV_FOR FOREIGN KEY (for_fnv_for_id)
+CREATE TABLE FORNECEDORES_PRODUTOS (
+	for_pro_id      SERIAL  NOT NULL,
+	for_pro_for_id  INTEGER NOT NULL,
+	for_pro_pro_id  INTEGER NOT NULL,
+	CONSTRAINT PK_FOR_PRO PRIMARY KEY (for_pro_id),
+	CONSTRAINT FK_FOR_PRO_FOR FOREIGN KEY (for_pro_for_id)
 		REFERENCES FORNECEDORES (for_id),
-	CONSTRAINT FK_FOR_FNV_FNV FOREIGN KEY (for_fnv_fnv_id)
-		REFERENCES FORNECIVEIS (fnv_id)
+	CONSTRAINT FK_FOR_PRO_PRO FOREIGN KEY (for_pro_pro_id)
+		REFERENCES PRODUTOS (pro_id)
 );
 
 -- 5
-CREATE TABLE FORNECIVEIS (
-	fnv_id              SERIAL       NOT NULL,
-	fnv_codigo          VARCHAR(20)  NOT NULL,
-	fnv_descricao       VARCHAR(255) NOT NULL,
-	fnv_tipo            CHAR(1)      NOT NULL,
-	fnv_tipo_cadastro   CHAR(1)      NOT NULL,
-	CONSTRAINT PK_FNV PRIMARY KEY (fnv_id),
-	CONSTRAINT UK_FNV_01 UNIQUE (fnv_codigo),
-	CONSTRAINT CK_FNV_01 CHECK (fnv_tipo_cadastro IN ('R','A','I')),
-	CONSTRAINT CK_FNV_02 CHECK (fnv_tipo IN ('P','S'))
+CREATE TABLE PRODUTOS (
+	pro_id            SERIAL       NOT NULL,
+	pro_codigo        VARCHAR(20)  NOT NULL,
+	pro_descricao     VARCHAR(255) NOT NULL,
+	pro_tipo_cadastro CHAR(1)      NOT NULL,
+	CONSTRAINT PK_PRO PRIMARY KEY (pro_id),
+	CONSTRAINT UK_PRO_01 UNIQUE (pro_codigo),
+	CONSTRAINT CK_PRO_01 CHECK (pro_tipo_cadastro IN ('R','A','I'))
 );
+
+-- 5
+CREATE TABLE SERVICOS (
+	ser_id          SERIAL NOT NULL,
+	ser_codigo      VARCHAR(20) NOT NULL,
+	ser_descricao   VARCHAR(255) NOT NULL,
+	ser_data_inicio DATE NOT NULL,
+	ser_for_id      INTEGER NOT NULL,
+	CONSTRAINT PK_SER PRIMARY KEY (ser_id),
+	CONSTRAINT FK_SER_FOR FOREIGN KEY (ser_for_id)
+		REFERENCES FORNECEDORES (for_id)
+)
