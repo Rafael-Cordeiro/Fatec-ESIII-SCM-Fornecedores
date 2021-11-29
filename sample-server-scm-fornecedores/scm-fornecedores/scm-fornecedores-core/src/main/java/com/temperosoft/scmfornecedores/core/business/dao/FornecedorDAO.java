@@ -7,6 +7,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
@@ -18,8 +20,11 @@ import org.springframework.stereotype.Component;
 
 import com.temperosoft.scmfornecedores.core.utils.ValidationUtils;
 import com.temperosoft.scmfornecedores.domain.Cidade;
+import com.temperosoft.scmfornecedores.domain.Contato;
+import com.temperosoft.scmfornecedores.domain.Documento;
 import com.temperosoft.scmfornecedores.domain.Endereco;
 import com.temperosoft.scmfornecedores.domain.Fornecedor;
+import com.temperosoft.scmfornecedores.domain.Produto;
 import com.temperosoft.scmfornecedores.domain.enums.TipoCadastroEnum;
 import com.temperosoft.scmfornecedores.domain.enums.TipoEnderecoEnum;
 import com.temperosoft.scmfornecedores.domain.tipos.TipoCadastro;
@@ -29,8 +34,19 @@ import com.temperosoft.scmfornecedores.domain.tipos.TipoLogradouro;
 @Component
 public class FornecedorDAO extends AbstractDAO<Fornecedor> {
 	
+	private Logger logger = LoggerFactory.getLogger(FornecedorDAO.class);
+	
 	@Autowired
 	private CidadeDAO cidadeDAO;
+	
+	@Autowired
+	private ContatoDAO contatoDAO;
+	
+	@Autowired
+	private DocumentoDAO documentoDAO;
+	
+	@Autowired
+	private ProdutoDAO produtoDAO;
 	
 	public FornecedorDAO() {
         table = "FORNECEDORES";
@@ -198,6 +214,27 @@ public class FornecedorDAO extends AbstractDAO<Fornecedor> {
 			endereco.setCidade(cidade);
 
 			fornecedor.setEndereco(endereco);
+			
+			try {
+				List<Contato> contatos = contatoDAO.findByFornecedorId(fornecedor.getId());
+				fornecedor.setContatos(contatos);
+			} catch (Exception e) {
+				logger.error("Não foi possível consultar contatos relacionados ao fornecedor {}", fornecedor.getCodigo(), e);
+			}
+			
+			try {
+				List<Documento> documentos = documentoDAO.findByFornecedorId(fornecedor.getId());
+				fornecedor.setDocumentos(documentos);
+			} catch (Exception e) {
+				logger.error("Não foi possível consultar documentos relacionados ao fornecedor {}", fornecedor.getCodigo(), e);
+			}
+			
+			try {
+				List<Produto> produtos = produtoDAO.findProdutosRelatedWithAFornecedor(fornecedor.getId());
+				fornecedor.setProdutos(produtos);
+			} catch (Exception e) {
+				logger.error("Não foi possível consultar produtos relacionados ao fornecedor {}", fornecedor.getCodigo(), e);
+			}
 			
 			TipoCadastro tipoCadastroFor = new BeanPropertyRowMapper<>(TipoCadastro.class).mapRow(rs, rowNum);
 			tipoCadastroFor.setDescricao(TipoCadastroEnum.atSymbol(rs.getString("for_tipo_cadastro")).getLiteral());

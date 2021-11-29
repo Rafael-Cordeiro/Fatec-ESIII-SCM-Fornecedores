@@ -15,6 +15,13 @@ import com.temperosoft.scmfornecedores.domain.tipos.TipoCadastro;
 
 @Component
 public class ProdutoDAO extends AbstractDAO<Produto> {
+	
+	public ProdutoDAO() {
+        table = "PRODUTOS";
+        idTable = "pro_id";
+        alias = "pro1";
+        trigram = "pro";
+	}
 
 	@Override
 	public List<Produto> findAll() {
@@ -45,6 +52,18 @@ public class ProdutoDAO extends AbstractDAO<Produto> {
 	public Long delete(String status, Long id) throws DataAccessException, Exception {
 		// TODO Auto-generated method stub
 		return null;
+	}
+	
+	public List<Produto> findProdutosRelatedWithAFornecedor(Long id) {
+		StringBuilder sql = new StringBuilder();
+		
+		sql.append("SELECT * FROM ").append(table).append(" ").append(alias)
+		.append(" INNER JOIN FORNECEDORES_PRODUTOS fp1")
+		.append(" ON fp1.for_pro_pro_id = ").append(alias).append(".pro_id")
+		.append(" WHERE fp1.for_pro_for_id = ").append(id);
+		
+		return getJdbcTemplate().query(sql.toString(), new ProdutoRowMapper());
+		
 	}
 	
 	class ProdutoRowMapper implements RowMapper<Produto> {

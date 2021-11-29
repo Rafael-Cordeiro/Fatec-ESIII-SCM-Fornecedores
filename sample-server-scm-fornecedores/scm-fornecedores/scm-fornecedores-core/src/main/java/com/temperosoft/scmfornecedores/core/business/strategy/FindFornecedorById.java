@@ -13,7 +13,7 @@ import com.temperosoft.scmfornecedores.domain.Fornecedor;
 @Component
 public class FindFornecedorById implements IStrategy<Fornecedor> {
 	
-	private Logger logger = LoggerFactory.getLogger(Fornecedor.class);
+	private Logger logger = LoggerFactory.getLogger(FindFornecedorById.class);
 	
 	@Autowired
 	private FornecedorDAO fornecedorDAO;
@@ -27,7 +27,7 @@ public class FindFornecedorById implements IStrategy<Fornecedor> {
 			aEntity = fornecedorDAO.findById(id);
 			aCase.getResult().addEntity(aEntity);
 			
-			logger.info("Consulta de fornecedor de id " + id + " realizada com sucesso");
+			logger.info("Consulta de fornecedor de código " + aEntity.getCodigo() + " realizada com sucesso");
 		} catch (Exception e) {
 			logger.error(e.getMessage());
 		}

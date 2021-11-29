@@ -15,7 +15,7 @@ import com.temperosoft.scmfornecedores.domain.Fornecedor;
 @Component
 public class FindAllFornecedores implements IStrategy<Fornecedor> {
 
-	private Logger logger = LoggerFactory.getLogger(FindAllCidades.class);
+	private Logger logger = LoggerFactory.getLogger(FindAllFornecedores.class);
 	
 	@Autowired
 	private FornecedorDAO fornecedorDAO;

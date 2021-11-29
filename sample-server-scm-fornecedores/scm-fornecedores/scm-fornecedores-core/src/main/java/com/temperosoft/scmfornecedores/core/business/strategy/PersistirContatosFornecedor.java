@@ -27,7 +27,7 @@ public class PersistirContatosFornecedor implements IStrategy<Fornecedor> {
 		try {
 			int rows = 0;
 			
-			if(aEntity.getContatos().size() > 0) {
+			if (aEntity.getContatos().size() > 0) {
 				for (Contato contato : aEntity.getContatos()) {
 					contato.setTipoCadastro(new TipoCadastro());
 					contato.getTipoCadastro().setDescricao(TipoCadastroEnum.ATIVO.getLiteral());

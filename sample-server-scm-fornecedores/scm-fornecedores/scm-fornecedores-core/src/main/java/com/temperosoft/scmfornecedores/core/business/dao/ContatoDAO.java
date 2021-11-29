@@ -86,8 +86,8 @@ public class ContatoDAO extends AbstractDAO<Contato> {
 			public PreparedStatement createPreparedStatement(Connection con) throws SQLException {
 				PreparedStatement ps = con.prepareStatement(sql.toString(), Statement.RETURN_GENERATED_KEYS);
 				
-				ps.setString(1,aEntity.getTelefone().getDdi());
-				ps.setString(2,aEntity.getTelefone().getDdd());
+				ps.setString(1, aEntity.getTelefone().getDdi());
+				ps.setString(2, aEntity.getTelefone().getDdd());
 				ps.setString(3, aEntity.getTelefone().getNumero());
 				ps.setString(4, aEntity.getTelefone().getRamal());
 				ps.setString(5, aEntity.getTelefone().getTipoTelefone().getDescricao());
@@ -108,8 +108,8 @@ public class ContatoDAO extends AbstractDAO<Contato> {
 	public List<Contato> findByFornecedorId(Long forId) throws DataAccessException, Exception {
 		StringBuilder sql = new StringBuilder();
 		
-		sql.append("SELECT * FROM CONTATOS ")
-		.append("WHERE con_for_id = ").append(forId);
+		sql.append("SELECT * FROM ").append(table)
+		.append(" WHERE con_for_id = ").append(forId);
 		
 		return getJdbcTemplate().query(sql.toString(), new ContatoRowMapper());
 	}
@@ -121,6 +121,8 @@ public class ContatoDAO extends AbstractDAO<Contato> {
 			
 			Contato contato = new BeanPropertyRowMapper<>(Contato.class).mapRow(rs, rowNum);
 			contato.setId(rs.getLong("con_id"));
+			
+			contato.setNome(rs.getString("con_nome"));
 			
 			Telefone telefone = new BeanPropertyRowMapper<>(Telefone.class).mapRow(rs, rowNum);
 			telefone.setDdi(rs.getString("con_ddi"));
@@ -143,7 +145,7 @@ public class ContatoDAO extends AbstractDAO<Contato> {
 			
 			contato.setTipoCadastro(tipoCadastro);
 			
-			return null;
+			return contato;
 		}
 		
 	}
