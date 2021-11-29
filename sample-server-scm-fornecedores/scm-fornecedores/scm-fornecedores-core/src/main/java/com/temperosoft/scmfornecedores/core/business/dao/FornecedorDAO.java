@@ -1,13 +1,19 @@
 package com.temperosoft.scmfornecedores.core.business.dao;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
+import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Component;
 
 import com.temperosoft.scmfornecedores.core.utils.ValidationUtils;
@@ -75,20 +81,35 @@ public class FornecedorDAO extends AbstractDAO<Fornecedor> {
 		.append(") VALUES ")
 		.append("(?,?,?,?,?,?,?,?,?,?,?,?)");
 		
-		return (long) getJdbcTemplate().update(sql.toString(),
-				aEntity.getRazaoSocial(),
-				aEntity.getNomeFantasia(),
-				aEntity.getCodigo(),
-				TipoEnderecoEnum.atLiteral(aEntity.getEndereco().getTipoEndereco().getDescricao()).getSymbol(),
-				aEntity.getEndereco().getLogradouro(),
-				aEntity.getEndereco().getTipoLogradouro().getDescricao(),
-				aEntity.getEndereco().getNumero(),
-				aEntity.getEndereco().getBairro(),
-				aEntity.getEndereco().getCep(),
-				aEntity.getEndereco().getComplemento(),
-				ValidationUtils.returnIdOrNull(aEntity.getEndereco().getCidade()),
-				TipoCadastroEnum.atLiteral(aEntity.getTipoCadastro().getDescricao()).getSymbol()
-				);
+		KeyHolder keyHolder = new GeneratedKeyHolder();
+		
+		getJdbcTemplate().update(new PreparedStatementCreator() {
+			
+			@Override
+			public PreparedStatement createPreparedStatement(Connection con) throws SQLException {
+				PreparedStatement ps = con.prepareStatement(sql.toString(), Statement.RETURN_GENERATED_KEYS);
+				
+				ps.setString(1, aEntity.getRazaoSocial());
+				ps.setString(2, aEntity.getNomeFantasia());
+				ps.setString(3, aEntity.getCodigo());
+				ps.setString(4, TipoEnderecoEnum.atLiteral(aEntity.getEndereco().getTipoEndereco().getDescricao()).getSymbol());
+				ps.setString(5, aEntity.getEndereco().getLogradouro());
+				ps.setString(6, aEntity.getEndereco().getTipoLogradouro().getDescricao());
+				ps.setString(7, aEntity.getEndereco().getNumero());
+				ps.setString(8, aEntity.getEndereco().getBairro());
+				ps.setString(9, aEntity.getEndereco().getCep());
+				ps.setString(10, aEntity.getEndereco().getComplemento());
+				ps.setLong(11, ValidationUtils.returnIdOrNull(aEntity.getEndereco().getCidade()));
+				ps.setString(12, TipoCadastroEnum.atLiteral(aEntity.getTipoCadastro().getDescricao()).getSymbol());
+				
+				return ps;
+			}
+			
+		}, keyHolder);
+		
+		
+		Integer id = (Integer) keyHolder.getKeys().get("for_id");
+		return (Long) id.longValue();
 	}
 
 	@Override
@@ -131,6 +152,17 @@ public class FornecedorDAO extends AbstractDAO<Fornecedor> {
 	@Override
 	public Long delete(String status, Long id) throws DataAccessException, Exception {
 		return (long) getJdbcTemplate().update(updateStatusQuery(), TipoCadastroEnum.atLiteral(status).getSymbol(), id);
+	}
+	
+	public Long createProdutoRelation(Long forId, Long proId) throws DataAccessException, Exception {
+		
+		StringBuilder sql = new StringBuilder();
+		
+		sql.append("INSERT INTO FORNECEDORES_PRODUTOS ")
+		.append("(for_pro_for_id, for_pro_pro_id) ")
+		.append("VALUES (?, ?)");
+		
+		return (long) getJdbcTemplate().update(sql.toString(), forId, proId);
 	}
 	
 	class FornecedorRowMapper implements RowMapper<Fornecedor> {

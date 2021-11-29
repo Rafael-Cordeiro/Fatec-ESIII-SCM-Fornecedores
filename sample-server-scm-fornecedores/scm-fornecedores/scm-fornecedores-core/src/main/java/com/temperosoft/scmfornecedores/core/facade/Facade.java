@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Configurable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -15,6 +16,7 @@ import com.temperosoft.scmfornecedores.core.exception.InvalidStrategyConditionEx
 import com.temperosoft.scmfornecedores.domain.AbstractDomain;
 
 @Service
+@Configurable
 @SuppressWarnings({ "rawtypes", "unchecked" })
 public class Facade implements IFacade {
 	

@@ -12,9 +12,9 @@ import com.temperosoft.scmfornecedores.core.utils.Log;
 import com.temperosoft.scmfornecedores.domain.Fornecedor;
 
 @Component
-public class PersisteFornecedor implements IStrategy<Fornecedor> {
+public class PersistirFornecedor implements IStrategy<Fornecedor> {
 	
-    private Logger logger = LoggerFactory.getLogger(PersisteFornecedor.class);
+    private Logger logger = LoggerFactory.getLogger(PersistirFornecedor.class);
     
     @Autowired
     private FornecedorDAO fornecedorDAO;
@@ -23,16 +23,16 @@ public class PersisteFornecedor implements IStrategy<Fornecedor> {
 	public void process(Fornecedor aEntity, INavigationCase<Fornecedor> aCase) {
 		
 		try {
-			Long row;
+			Long row = 1l;
 			
 			if(aEntity.getId() == null)
-				row = fornecedorDAO.create(aEntity);
+				aEntity.setId(fornecedorDAO.create(aEntity));
 			else
 				row = fornecedorDAO.update(aEntity);
 			
 			logger.info("{} fornecedor(es) persistido(s).", row);			
 		} catch (Exception e) {
-			Log.suspendExecutionThenLogException("Erro ao persistir fornecedor", PersisteFornecedor.class, aCase, e);
+			Log.suspendExecutionThenLogException("Erro ao persistir fornecedor", PersistirFornecedor.class, aCase, e);
 		}
 	}
 

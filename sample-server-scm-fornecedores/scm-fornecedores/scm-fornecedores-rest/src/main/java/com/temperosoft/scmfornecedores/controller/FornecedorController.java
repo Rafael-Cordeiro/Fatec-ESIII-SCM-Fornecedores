@@ -26,13 +26,14 @@ import com.temperosoft.scmfornecedores.domain.Fornecedor;
 public class FornecedorController {
 	
 	@Autowired
-	public Facade facade;
+	private Facade facade;
+	
 	
 	@GetMapping(value="", produces="application/json")
 	public @ResponseBody ResponseEntity<List<Fornecedor>> findAllFornecedores() {
 		
 		Fornecedor f = new Fornecedor();
-		
+
 		List<Fornecedor> fs = facade.findAll(f, "CONSULTAR_FORNECEDORES");
 		
 		if (fs.isEmpty())
@@ -57,7 +58,7 @@ public class FornecedorController {
 	public @ResponseBody ResponseEntity<String> createFornecedor(@RequestBody Fornecedor fornecedor) {
 		
 		try {
-			facade.persistsEntity(fornecedor, "PERSISTE_FORNECEDOR");
+			facade.persistsEntity(fornecedor, "PERSISTE_FORNECEDOR_SALVAR");
 		} catch (InvalidStrategyConditionException e) {
 			return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(e.getMessage());
 		}
@@ -70,7 +71,7 @@ public class FornecedorController {
 		fornecedor.setId(id);
 		
 		try {
-			facade.persistsEntity(fornecedor, "PERSISTE_FORNECEDOR");
+			facade.persistsEntity(fornecedor, "PERSISTE_FORNECEDOR_ATUALIZAR");
 		} catch (InvalidStrategyConditionException e) {
 			return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(e.getMessage());
 		}

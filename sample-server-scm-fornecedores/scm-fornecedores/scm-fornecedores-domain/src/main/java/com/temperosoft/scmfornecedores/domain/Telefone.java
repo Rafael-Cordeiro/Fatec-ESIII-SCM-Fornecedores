@@ -12,6 +12,7 @@ public class Telefone extends AbstractDomain {
 	private String ddd;
 	private String ddi;
 	private String numero;
+	private String ramal;
 	private TipoTelefone tipoTelefone;
 	
 }

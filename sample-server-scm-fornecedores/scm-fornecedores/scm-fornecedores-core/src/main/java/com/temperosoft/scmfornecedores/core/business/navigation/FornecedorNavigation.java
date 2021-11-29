@@ -6,10 +6,14 @@ import org.springframework.context.annotation.Configuration;
 
 import com.dvsmedeiros.bce.core.controller.impl.Navigation;
 import com.dvsmedeiros.bce.core.controller.impl.NavigationBuilder;
+import com.temperosoft.scmfornecedores.core.business.strategy.DefinirEntidadeAtiva;
 import com.temperosoft.scmfornecedores.core.business.strategy.DesativarFornecedor;
 import com.temperosoft.scmfornecedores.core.business.strategy.FindAllFornecedores;
 import com.temperosoft.scmfornecedores.core.business.strategy.FindFornecedorById;
-import com.temperosoft.scmfornecedores.core.business.strategy.PersisteFornecedor;
+import com.temperosoft.scmfornecedores.core.business.strategy.GerarCodigoFornecedor;
+import com.temperosoft.scmfornecedores.core.business.strategy.PersistirContatosFornecedor;
+import com.temperosoft.scmfornecedores.core.business.strategy.PersistirFornecedor;
+import com.temperosoft.scmfornecedores.core.business.strategy.PersistirRelacoesFornecedorProduto;
 import com.temperosoft.scmfornecedores.domain.Fornecedor;
 
 @Configuration
@@ -22,14 +26,38 @@ public class FornecedorNavigation {
 	private FindFornecedorById findFornecedorById;
 	
 	@Autowired
-	private PersisteFornecedor persisteFornecedor;
+	private PersistirFornecedor persisteFornecedor;
 	
 	@Autowired
 	private DesativarFornecedor desativarFornecedor;
 	
-	@Bean(name="PERSISTE_FORNECEDOR")
-	public Navigation<Fornecedor> persistirFornecedor() {
+	@Autowired
+	private DefinirEntidadeAtiva definirEntidadeAtiva;
+	
+	@Autowired
+	private PersistirRelacoesFornecedorProduto persistirRelacoesFornecedorProduto;
+	
+	@Autowired
+	private PersistirContatosFornecedor persistirContatosFornecedor;
+	
+	@Autowired
+	private GerarCodigoFornecedor gerarCodigoFornecedor;
+	
+	@Bean(name="PERSISTE_FORNECEDOR_SALVAR")
+	public Navigation<Fornecedor> persistirFornecedorSalvar() {
 		return new NavigationBuilder<Fornecedor>()
+				.next(gerarCodigoFornecedor)
+				.next(definirEntidadeAtiva)
+				.next(persisteFornecedor)
+				.next(persistirRelacoesFornecedorProduto)
+				.next(persistirContatosFornecedor)
+				.build();
+	}
+	
+	@Bean(name="PERSISTE_FORNECEDOR_ATUALIZAR")
+	public Navigation<Fornecedor> persistirFornecedorAtualizar() {
+		return new NavigationBuilder<Fornecedor>()
+				.next(definirEntidadeAtiva)
 				.next(persisteFornecedor)
 				.build();
 	}
