@@ -10,8 +10,8 @@
 
       <q-tabs align="center">
         <q-route-tab icon="home" to="/" label="Página inicial" />
-        <q-route-tab icon="groups" to="/list" label="Fornecedores" />
-        <q-route-tab icon="support_agent" to="/" label="Serviços" />
+        <q-route-tab icon="groups" to="/fornecedores" label="Fornecedores" />
+        <q-route-tab icon="support_agent" to="/servicos" label="Serviços" />
       </q-tabs>
     </q-header>
 

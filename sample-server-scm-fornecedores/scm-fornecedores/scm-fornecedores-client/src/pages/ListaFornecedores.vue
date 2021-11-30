@@ -9,6 +9,108 @@
     <span>Inserir</span>
     <!-- LISTA DE FORNECEDORES -->
     <div v-if="!insertUpdateDialog">
+      <q-dialog
+        v-model="viewDialog"
+        :maximized="maximizedToggle"
+        transition-show="slide-up"
+        transition-hide="slide-down"
+      >
+        <q-card class="bg-indigo-12 text-white">
+          <q-bar>
+            <q-space />
+
+            <q-btn dense flat icon="minimize" @click="maximizedToggle = false" :disable="!maximizedToggle">
+              <q-tooltip v-if="maximizedToggle" class="bg-white text-primary">Minimize</q-tooltip>
+            </q-btn>
+            <q-btn dense flat icon="crop_square" @click="maximizedToggle = true" :disable="maximizedToggle">
+              <q-tooltip v-if="!maximizedToggle" class="bg-white text-primary">Maximize</q-tooltip>
+            </q-btn>
+            <q-btn dense flat icon="close" v-close-popup>
+              <q-tooltip class="bg-white text-primary">Close</q-tooltip>
+            </q-btn>
+          </q-bar>
+
+          <q-card-section>
+            <div class="text-h6">Visualização</div>
+          </q-card-section>
+
+          <q-card-section class="q-pt-none">
+            <div class="q-pa-xl">
+              <div class="row">
+                <div class="col-sm-6"><span class="mid-text text-weight-bold">Razão Social</span></div>
+                <div class="col-sm-6" align="right"><span class="mid-text">{{ fornecedor.razaoSocial }}</span></div>
+              </div>
+              <div class="row">
+                <div class="col-sm-6"><span class="mid-text text-weight-bold">Nome Fantasia</span></div>
+                <div class="col-sm-6" align="right"><span class="mid-text">{{ fornecedor.nomeFantasia }}</span></div>
+              </div>
+              <div class="row">
+                <div class="col-sm-6"><span class="mid-text text-weight-bold">Código</span></div>
+                <div class="col-sm-6" align="right"><span class="mid-text">{{ fornecedor.codigo }}</span></div>
+              </div>
+              <div class="row">
+                <div class="col-sm-6"><span class="mid-text text-weight-bold">CNPJ</span></div>
+                <div class="col-sm-6" align="right"><span class="mid-text">{{ fornecedor.documentos[0].codigo }}</span></div>
+              </div>
+              <div class="row">
+                <div class="col-sm-6"><span class="mid-text text-weight-bold">CNAE</span></div>
+                <div class="col-sm-6" align="right"><span class="mid-text">{{ fornecedor.documentos[1].codigo }}</span></div>
+              </div>
+              <div class="row">
+                <div class="col-sm-6"><span class="mid-text text-weight-bold">Inscrição Estadual</span></div>
+                <div class="col-sm-6" align="right"><span class="mid-text">{{ fornecedor.documentos[2].codigo }}</span></div>
+              </div>
+              <div class="row">
+                <div class="col-sm-6"><span class="mid-text text-weight-bold">Inscrição Municipal</span></div>
+                <div class="col-sm-6" align="right"><span class="mid-text">{{ fornecedor.documentos[3].codigo }}</span></div>
+              </div>
+              <h3>Endereço</h3>
+              <div class="row">
+                <div class="col-sm-6"><span class="mid-text text-weight-bold">Logradouro</span></div>
+                <div class="col-sm-6" align="right"><span class="mid-text">{{ fornecedor.endereco.logradouro }}</span></div>
+              </div>
+              <div class="row">
+                <div class="col-sm-6"><span class="mid-text text-weight-bold">Tipo de logradouro</span></div>
+                <div class="col-sm-6" align="right"><span class="mid-text">{{ fornecedor.endereco.tipoLogradouro.descricao }}</span></div>
+              </div>
+              <div class="row">
+                <div class="col-sm-6"><span class="mid-text text-weight-bold">Número</span></div>
+                <div class="col-sm-6" align="right"><span class="mid-text">{{ fornecedor.endereco.numero }}</span></div>
+              </div>
+              <div class="row">
+                <div class="col-sm-6"><span class="mid-text text-weight-bold">Complemento</span></div>
+                <div class="col-sm-6" align="right"><span class="mid-text">{{ (fornecedor.endereco.complemento) ? fornecedor.endereco.complemento : 'N/A' }}</span></div>
+              </div>
+              <div class="row">
+                <div class="col-sm-6"><span class="mid-text text-weight-bold">Cidade</span></div>
+                <div class="col-sm-6" align="right"><span class="mid-text">{{ fornecedor.endereco.cidade.descricao }} - {{ fornecedor.endereco.cidade.estado.codigo }}</span></div>
+              </div>
+              <div class="row">
+                <div class="col-sm-6"><span class="mid-text text-weight-bold">País</span></div>
+                <div class="col-sm-6" align="right"><span class="mid-text">{{ fornecedor.endereco.cidade.estado.pais.descricao }}</span></div>
+              </div>
+              <div class="row">
+                <div class="col-sm-6"><span class="mid-text text-weight-bold">Tipo de endereço</span></div>
+                <div class="col-sm-6" align="right"><span class="mid-text">{{ fornecedor.endereco.tipoEndereco.descricao }}</span></div>
+              </div>
+              <h3>Contatos</h3>
+              <q-table
+                class="col"
+                :rows="contatosTable"
+                :columns="contatoColumns"
+                dense
+              />
+              <h3>Produtos fornecidos</h3>
+              <q-table
+                class="col"
+                :rows="fornecedor.produtos"
+                :columns="columnsProdutosTable"
+                dense
+              />
+            </div>
+          </q-card-section>
+        </q-card>
+      </q-dialog>
       <q-table
         :columns="columns"
         :rows="listaFornecedores"
@@ -31,6 +133,7 @@
               size="sm"
               dense
               class="q-ml-sm"
+              @click="openViewDialog(props.row.fornecedor)"
             />
             <q-btn
               icon="delete"
@@ -317,9 +420,17 @@ export default defineComponent({
   data () {
     return {
       // =============== dados de lista ===============
+      contatoColumns: [
+        { name: 'nome', label: 'Nome', field: 'nome', align: 'left', sortable: true },
+        { name: 'email', label: 'Email', field: 'email', align: 'left', sortable: true },
+        { name: 'departamento', label: 'Departamento', field: 'departamento', align: 'left', sortable: true },
+        { name: 'telefone', label: 'Telefone', field: 'telefone', align: 'left', sortable: true },
+        { name: 'tipoTelefone', label: 'Tipo de Telefone', field: 'tipoTelefone', align: 'left', sortable: true }
+      ],
+      contatosTable: [],
       columns: [
         { name: 'action', label: 'Ação', field: 'action', align: 'center', sortable: false },
-        { name: 'id', label: 'ID', field: 'id', align: 'left', sortable: true },
+        // { name: 'id', label: 'ID', field: 'id', align: 'left', sortable: true },
         { name: 'tipoCadastro', label: 'Tipo Cadastro', field: 'tipoCadastro', align: 'left', sortable: true },
         { name: 'razaoSocial', label: 'Razão Social', field: 'razaoSocial', align: 'left', sortable: true },
         { name: 'nomeFantasia', label: 'Nome Fantasia', field: 'nomeFantasia', align: 'left', sortable: true },
@@ -330,6 +441,8 @@ export default defineComponent({
       ],
       listaFornecedores: [],
       insertUpdateDialog: false,
+      viewDialog: false,
+      maximizedToggle: true,
       // =============== dados de form ===============
       isUpdate: false,
       columnsProdutosTable: [
@@ -376,8 +489,10 @@ export default defineComponent({
           complemento: '',
           bairro: '',
           cidade: {
+            codigo: '',
             descricao: '',
             estado: {
+              codigo: '',
               descricao: '',
               pais: {
                 descricao: ''
@@ -513,6 +628,12 @@ export default defineComponent({
         this.disallowComboCidadesField = false
         this.disallowEnderecoFields = false
       }
+    },
+    viewDialog () {
+      if (!this.viewDialog) {
+        this.fornecedor = this.Fornecedor()
+        this.contatosTable = {}
+      }
     }
   },
   methods: {
@@ -563,7 +684,18 @@ export default defineComponent({
       }
     },
     openViewDialog (fornecedor) {
-
+      this.viewDialog = true
+      this.fornecedor = fornecedor
+      this.contatosTable = fornecedor.contatos.map(contato => {
+        return {
+          ...contato,
+          nome: contato.nome,
+          email: contato.email,
+          departamento: contato.departamento,
+          telefone: `${contato.telefone.ddi} ${contato.telefone.ddd} ${contato.telefone.numero} ${contato.telefone.ramal}`,
+          tipoTelefone: contato.telefone.tipoTelefone.descricao
+        }
+      })
     },
     // =============== métodos do form ===============
     onSubmit () {
@@ -678,4 +810,8 @@ export default defineComponent({
   &.q-table--loading thead tr:last-child th
     /* height of all previous header rows */
     top: 48px
+.big-text
+  font-size: 24px
+.mid-text
+  font-size: 18px
 </style>
