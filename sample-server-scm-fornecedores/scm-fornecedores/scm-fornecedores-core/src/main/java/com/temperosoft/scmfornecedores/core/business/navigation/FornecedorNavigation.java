@@ -6,6 +6,7 @@ import org.springframework.context.annotation.Configuration;
 
 import com.dvsmedeiros.bce.core.controller.impl.Navigation;
 import com.dvsmedeiros.bce.core.controller.impl.NavigationBuilder;
+import com.temperosoft.scmfornecedores.core.business.strategy.AtivarFornecedor;
 import com.temperosoft.scmfornecedores.core.business.strategy.DefinirEntidadeAtiva;
 import com.temperosoft.scmfornecedores.core.business.strategy.DesativarFornecedor;
 import com.temperosoft.scmfornecedores.core.business.strategy.FindAllFornecedores;
@@ -47,6 +48,9 @@ public class FornecedorNavigation {
 	@Autowired
 	private PersistirDocumentoFornecedor persistirDocumentoFornecedor;
 	
+	@Autowired
+	private AtivarFornecedor ativarFornecedor;
+	
 	@Bean(name="PERSISTE_FORNECEDOR_SALVAR")
 	public Navigation<Fornecedor> persistirFornecedorSalvar() {
 		return new NavigationBuilder<Fornecedor>()
@@ -64,6 +68,9 @@ public class FornecedorNavigation {
 		return new NavigationBuilder<Fornecedor>()
 				.next(definirEntidadeAtiva)
 				.next(persisteFornecedor)
+				.next(persistirRelacoesFornecedorProduto)
+				.next(persistirContatosFornecedor)
+				.next(persistirDocumentoFornecedor)
 				.build();
 	}
 	
@@ -85,6 +92,13 @@ public class FornecedorNavigation {
 	public Navigation<Fornecedor> desativarFornecedor() {
 		return new NavigationBuilder<Fornecedor>()
 				.next(desativarFornecedor)
+				.build();
+	}
+	
+	@Bean(name="ATIVAR_FORNECEDOR")
+	public Navigation<Fornecedor> ativarFornecedor() {
+		return new NavigationBuilder<Fornecedor>()
+				.next(ativarFornecedor)
 				.build();
 	}
 	

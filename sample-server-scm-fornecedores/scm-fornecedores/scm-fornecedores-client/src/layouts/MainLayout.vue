@@ -10,8 +10,8 @@
 
       <q-tabs align="center">
         <q-route-tab icon="home" to="/" label="Página inicial" />
-        <q-route-tab icon="add" to="/form" label="Cadastrar fornecedor" />
-        <q-route-tab icon="list" to="/list" label="Lista de fornecedores" />
+        <q-route-tab icon="groups" to="/list" label="Fornecedores" />
+        <q-route-tab icon="support_agent" to="/" label="Serviços" />
       </q-tabs>
     </q-header>
 

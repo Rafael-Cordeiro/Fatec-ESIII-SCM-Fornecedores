@@ -79,7 +79,7 @@ public class FornecedorController {
 	}
 	
 	@DeleteMapping(value="/{id}", produces="application/json")
-	public @ResponseBody ResponseEntity<String> deleteFornecedor(@PathVariable("id") Long id) {
+	public @ResponseBody ResponseEntity<String> inactivateFornecedor(@PathVariable("id") Long id) {
 		
 		Fornecedor f = new Fornecedor();
 		f.setId(id);
@@ -92,6 +92,21 @@ public class FornecedorController {
 
 		return ResponseEntity.ok().build();
 		
+	}
+	
+	@PostMapping(value="/{id}", produces="application/json")
+	public @ResponseBody ResponseEntity<String> activateFornecedor(@PathVariable("id") Long id) {
+		
+		Fornecedor f = new Fornecedor();
+		f.setId(id);
+		
+		try {
+			facade.inactivateEntity(f, "ATIVAR_FORNECEDOR");
+		} catch (InvalidStrategyConditionException e) {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+		}
+		
+		return ResponseEntity.ok().build();
 	}
 
 }

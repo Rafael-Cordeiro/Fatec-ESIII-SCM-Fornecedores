@@ -51,8 +51,31 @@ public class ContatoDAO extends AbstractDAO<Contato> {
 
 	@Override
 	public Long update(Contato aEntity) throws DataAccessException, Exception {
-		// TODO Auto-generated method stub
-		return null;
+
+		StringBuilder sql = new StringBuilder();
+		
+		sql.append("UPDATE ").append(table).append(" SET ")
+		.append("con_ddi = ?, ")
+		.append("con_ddd = ?, ")
+		.append("con_telefone = ?, ")
+		.append("con_ramal = ?, ")
+		.append("con_tipo_telefone = ?, ")
+		.append("con_nome = ?, ")
+		.append("con_email = ?, ")
+		.append("con_departamento = ? ")
+		.append("WHERE con_id = ?");
+		
+		return (long) getJdbcTemplate().update(sql.toString(),
+				aEntity.getTelefone().getDdi(),
+				aEntity.getTelefone().getDdd(),
+				aEntity.getTelefone().getNumero(),
+				aEntity.getTelefone().getRamal(),
+				aEntity.getTelefone().getTipoTelefone().getDescricao(),
+				aEntity.getNome(),
+				aEntity.getEmail(),
+				aEntity.getDepartamento(),
+				aEntity.getId()
+		);
 	}
 
 	@Override

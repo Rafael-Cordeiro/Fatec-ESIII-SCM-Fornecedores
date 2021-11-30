@@ -29,9 +29,13 @@ public class PersistirDocumentoFornecedor implements IStrategy<Fornecedor> {
 			
 			if (aEntity.getDocumentos().size() > 0) {
 				for (Documento documento :  aEntity.getDocumentos()) {
-					documento.setTipoCadastro(new TipoCadastro());
-					documento.getTipoCadastro().setDescricao(TipoCadastroEnum.ATIVO.getLiteral());
-					documento.setId(documentoDAO.create(documento, aEntity.getId()));
+					if (documento.getId() == null) {
+						documento.setTipoCadastro(new TipoCadastro());
+						documento.getTipoCadastro().setDescricao(TipoCadastroEnum.ATIVO.getLiteral());
+						documento.setId(documentoDAO.create(documento, aEntity.getId()));
+					}
+					else
+						documentoDAO.update(documento);
 					rows++;
 				}
 				logger.info(rows + " documentos relacionados ao fornecedor " + aEntity.getCodigo() + " persistidos com sucesso.");

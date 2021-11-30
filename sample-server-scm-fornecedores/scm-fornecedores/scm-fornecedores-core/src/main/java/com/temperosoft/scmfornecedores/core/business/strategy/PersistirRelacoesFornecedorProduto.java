@@ -27,6 +27,7 @@ public class PersistirRelacoesFornecedorProduto implements IStrategy<Fornecedor>
 			int rows = 0;
 			
 			if (aEntity.getProdutos().size() > 0) {
+				fornecedorDAO.deleteProdutoRelations(aEntity.getId());
 				for (Produto produto : aEntity.getProdutos()) {
 					fornecedorDAO.createProdutoRelation(aEntity.getId(), produto.getId());
 					rows++;

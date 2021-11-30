@@ -1,6 +1,5 @@
 <template>
   <q-page padding>
-    Página base para listas de entidades
     <lista-fornecedores/>
   </q-page>
 </template>

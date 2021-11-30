@@ -205,19 +205,19 @@
               </q-card-section>
               <q-card-actions class="row" align="center">
                 <q-btn flat rounded color="negative" label="Remover contato" @click="removerContato" icon="remove"/>
-                <q-btn flat rounded color="primary" label="Adicionar contato" @click="adicionarContato" icon="add"/>
+                <q-btn flat rounded color="indigo-10" label="Adicionar contato" @click="adicionarContato" icon="add"/>
               </q-card-actions>
             </q-tab-panel>
             <q-tab-panel name="tab-produtos">
                 <q-table
                   class="col my-sticky-header-table"
                   :rows="comboProdutos"
-                  :columns="columns"
+                  :columns="columnsProdutosTable"
                 >
                   <template v-slot:body-cell-action="props">
                     <q-td :props="props">
                       <q-toggle
-                        color="primary"
+                        color="indigo-10"
                         size="sm"
                         dense
                         v-model="props.row.usar"
@@ -232,7 +232,7 @@
         <q-card-actions align="center" class="q-pa-md" id="insert-action-btn">
           <q-btn
             label="Inserir"
-            color="primary"
+            color="indigo-10"
             v-close-popup
             class="q-px-xl"
             type="submit"
@@ -252,7 +252,7 @@ export default defineComponent({
   name: 'FormFornecedor',
   data () {
     return {
-      columns: [
+      columnsProdutosTable: [
         { name: 'id', label: 'ID', field: 'id', align: 'left', sortable: true },
         { name: 'descricao', label: 'Descrição', field: 'descricao', align: 'left', sortable: true },
         { name: 'codigo', label: 'Código', field: 'codigo', align: 'left', sortable: true },
@@ -329,18 +329,6 @@ export default defineComponent({
           }
         }
       },
-      ProdutoHolder () {
-        return {
-          produto: {
-            id: null,
-            tipoCadastro: {
-              descricao: ''
-            },
-            codigo: '',
-            descricao: ''
-          }
-        }
-      },
       Produto () {
         return {
           id: null,
@@ -351,14 +339,10 @@ export default defineComponent({
           descricao: ''
         }
       },
-      produtoHolderList: [],
       comboPaises: [],
       comboEstados: [],
       comboCidades: [],
       comboProdutos: [],
-      produtoHolder: {
-        produto: {}
-      },
       comboTipoTelefone: ['Corporativo', 'Pessoal'],
       comboTipoEndereco: ['GALPAO', 'SALA_COMERCIAL', 'EDIFICIO'],
       comboTipoLogradouro: ['Avenida', 'Rua', 'Viela', 'Estrada', 'Rodovia'],

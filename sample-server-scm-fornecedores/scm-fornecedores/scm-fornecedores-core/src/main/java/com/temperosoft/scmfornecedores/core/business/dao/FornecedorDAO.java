@@ -181,6 +181,16 @@ public class FornecedorDAO extends AbstractDAO<Fornecedor> {
 		return (long) getJdbcTemplate().update(sql.toString(), forId, proId);
 	}
 	
+	public void deleteProdutoRelations(Long forId) throws DataAccessException, Exception {
+		
+		StringBuilder sql = new StringBuilder();
+		
+		sql.append("DELETE FROM FORNECEDORES_PRODUTOS WHERE for_pro_for_id = ").append(forId);
+		
+		getJdbcTemplate().update(sql.toString());
+		
+	}
+	
 	class FornecedorRowMapper implements RowMapper<Fornecedor> {
 
 		@Override

@@ -50,8 +50,18 @@ public class DocumentoDAO extends AbstractDAO<Documento> {
 
 	@Override
 	public Long update(Documento aEntity) throws DataAccessException, Exception {
-		// TODO Auto-generated method stub
-		return null;
+		StringBuilder sql = new StringBuilder();
+		
+		sql.append("UPDATE ").append(table).append(" SET ")
+		.append("doc_codigo = ?, ")
+		.append("doc_tipo = ? ")
+		.append("WHERE doc_id = ?");
+		
+		return (long) getJdbcTemplate().update(sql.toString(),
+				aEntity.getCodigo(),
+				aEntity.getTipoDocumento().getDescricao(),
+				aEntity.getId()
+		);
 	}
 
 	@Override

@@ -29,9 +29,12 @@ public class PersistirContatosFornecedor implements IStrategy<Fornecedor> {
 			
 			if (aEntity.getContatos().size() > 0) {
 				for (Contato contato : aEntity.getContatos()) {
-					contato.setTipoCadastro(new TipoCadastro());
-					contato.getTipoCadastro().setDescricao(TipoCadastroEnum.ATIVO.getLiteral());
-					contato.setId(contatoDAO.create(contato, aEntity.getId()));
+					if (contato.getId() == null) {
+						contato.setTipoCadastro(new TipoCadastro());
+						contato.getTipoCadastro().setDescricao(TipoCadastroEnum.ATIVO.getLiteral());
+						contato.setId(contatoDAO.create(contato, aEntity.getId()));						
+					} else
+						contatoDAO.update(contato);
 					rows++;
 				}				
 				logger.info(rows + " contatos relacionados ao fornecedor " + aEntity.getCodigo() + " persistidos com sucesso.");
