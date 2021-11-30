@@ -1,6 +1,6 @@
 package com.temperosoft.scmfornecedores.domain;
 
-import java.util.GregorianCalendar;
+import java.util.Date;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -11,7 +11,7 @@ public class Servico extends AbstractDomain {
 	
 	private String codigo;
 	private String descricao;
-	private GregorianCalendar dataInicio;
+	private Date dataInicio;
 	private Fornecedor fornecedor;
 
 }

@@ -27,7 +27,7 @@ public class FindAllFornecedores implements IStrategy<Fornecedor> {
 			List<Fornecedor> fornecedores = fornecedorDAO.findAll();
 			aCase.getResult().addEntity(fornecedores);
 			
-			logger.info("Listagem de fornecedores realizada");
+			logger.info("Listagem de fornecedores realizada com sucesso.");
 		} catch (Exception e) {
 			logger.error(e.getMessage());
 		}

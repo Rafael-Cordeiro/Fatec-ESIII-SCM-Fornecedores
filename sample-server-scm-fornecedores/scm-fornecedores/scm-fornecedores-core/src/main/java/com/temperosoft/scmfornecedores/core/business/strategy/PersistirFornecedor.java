@@ -25,12 +25,12 @@ public class PersistirFornecedor implements IStrategy<Fornecedor> {
 		try {
 			Long row = 1l;
 			
-			if(aEntity.getId() == null)
+			if (aEntity.getId() == null)
 				aEntity.setId(fornecedorDAO.create(aEntity));
 			else
 				row = fornecedorDAO.update(aEntity);
 			
-			logger.info("{} fornecedor(es) persistido(s) com sucesso.", row);			
+			logger.info("{} fornecedores persistidos com sucesso.", row);			
 		} catch (Exception e) {
 			Log.suspendExecutionThenLogException("Erro ao persistir fornecedor", PersistirFornecedor.class, aCase, e);
 		}

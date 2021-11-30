@@ -125,7 +125,7 @@ public class FornecedorDAO extends AbstractDAO<Fornecedor> {
 		
 		
 		Integer id = (Integer) keyHolder.getKeys().get("for_id");
-		return (Long) id.longValue();
+		return id.longValue();
 	}
 
 	@Override

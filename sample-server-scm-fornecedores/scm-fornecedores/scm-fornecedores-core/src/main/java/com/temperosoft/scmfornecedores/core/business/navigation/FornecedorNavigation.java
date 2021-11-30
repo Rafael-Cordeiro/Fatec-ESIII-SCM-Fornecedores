@@ -28,7 +28,7 @@ public class FornecedorNavigation {
 	private FindFornecedorById findFornecedorById;
 	
 	@Autowired
-	private PersistirFornecedor persisteFornecedor;
+	private PersistirFornecedor persistirFornecedor;
 	
 	@Autowired
 	private DesativarFornecedor desativarFornecedor;
@@ -56,7 +56,7 @@ public class FornecedorNavigation {
 		return new NavigationBuilder<Fornecedor>()
 				.next(gerarCodigoFornecedor)
 				.next(definirEntidadeAtiva)
-				.next(persisteFornecedor)
+				.next(persistirFornecedor)
 				.next(persistirRelacoesFornecedorProduto)
 				.next(persistirContatosFornecedor)
 				.next(persistirDocumentoFornecedor)
@@ -67,7 +67,7 @@ public class FornecedorNavigation {
 	public Navigation<Fornecedor> persistirFornecedorAtualizar() {
 		return new NavigationBuilder<Fornecedor>()
 				.next(definirEntidadeAtiva)
-				.next(persisteFornecedor)
+				.next(persistirFornecedor)
 				.next(persistirRelacoesFornecedorProduto)
 				.next(persistirContatosFornecedor)
 				.next(persistirDocumentoFornecedor)

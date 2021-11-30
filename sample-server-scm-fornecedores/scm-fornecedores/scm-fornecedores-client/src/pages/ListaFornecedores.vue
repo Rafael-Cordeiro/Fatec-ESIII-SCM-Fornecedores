@@ -404,7 +404,6 @@
           </q-card-actions>
         </q-form>
       </q-card>
-      <code>{{ fornecedor }}</code><br/>
     </div>
   </q-page>
 </template>
@@ -430,7 +429,6 @@ export default defineComponent({
       contatosTable: [],
       columns: [
         { name: 'action', label: 'Ação', field: 'action', align: 'center', sortable: false },
-        // { name: 'id', label: 'ID', field: 'id', align: 'left', sortable: true },
         { name: 'tipoCadastro', label: 'Tipo Cadastro', field: 'tipoCadastro', align: 'left', sortable: true },
         { name: 'razaoSocial', label: 'Razão Social', field: 'razaoSocial', align: 'left', sortable: true },
         { name: 'nomeFantasia', label: 'Nome Fantasia', field: 'nomeFantasia', align: 'left', sortable: true },
@@ -449,7 +447,6 @@ export default defineComponent({
         { name: 'id', label: 'ID', field: 'id', align: 'left', sortable: true },
         { name: 'descricao', label: 'Descrição', field: 'descricao', align: 'left', sortable: true },
         { name: 'codigo', label: 'Código', field: 'codigo', align: 'left', sortable: true },
-        // { name: 'usar', label: 'Em uso', field: 'usar', align: 'left', sortable: true },
         { name: 'action', label: 'Ação', field: 'action', align: 'right', sortable: false }
       ],
       fornecedor: {
