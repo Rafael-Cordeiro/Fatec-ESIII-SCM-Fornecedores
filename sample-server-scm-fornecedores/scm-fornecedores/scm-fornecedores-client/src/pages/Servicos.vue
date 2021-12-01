@@ -299,7 +299,7 @@ export default defineComponent({
         })
     },
     fetchFornecedores () {
-      this.$axios.get('http://localhost:9999/api/fornecedor/')
+      this.$axios.get('http://localhost:9999/api/fornecedor/ativos')
         .then((res) => {
           this.combofornecedores = res.data
         })

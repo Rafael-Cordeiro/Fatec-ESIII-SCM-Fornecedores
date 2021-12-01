@@ -191,6 +191,19 @@ public class FornecedorDAO extends AbstractDAO<Fornecedor> {
 		
 	}
 	
+	public List<Fornecedor> findByTipoCadastro(TipoCadastro tipoCadastro) throws DataAccessException, Exception {
+		
+		StringBuilder sql = new StringBuilder();
+		
+		sql.append("SELECT * FROM ").append(table)
+		.append(" WHERE for_tipo_cadastro = '")
+		.append(TipoCadastroEnum.atLiteral(tipoCadastro.getDescricao()).getSymbol())
+		.append("'");
+		
+		return getJdbcTemplate().query(sql.toString(), new FornecedorRowMapper());
+		
+	}
+	
 	class FornecedorRowMapper implements RowMapper<Fornecedor> {
 
 		@Override

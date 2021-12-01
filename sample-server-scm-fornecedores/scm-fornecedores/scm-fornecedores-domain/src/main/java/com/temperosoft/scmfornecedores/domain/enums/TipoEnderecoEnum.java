@@ -15,9 +15,11 @@ public enum TipoEnderecoEnum {
 	private String literal;
 	private String symbol;
 	
-	public static TipoEnderecoEnum atSymbol(String arg) {
+	public static TipoEnderecoEnum atSymbol(String symbol) {
 		
-		switch(arg.charAt(0)) {
+		if (symbol.isEmpty()) return null;
+		
+		switch(symbol.charAt(0)) {
 		case 'G':
 			return TipoEnderecoEnum.GALPAO;
 		case 'S':
@@ -30,6 +32,8 @@ public enum TipoEnderecoEnum {
 	}
 	
 	public static TipoEnderecoEnum atLiteral(String literal) {
+		
+		if (literal.isEmpty()) return null;
 
 		if(literal.equals(TipoEnderecoEnum.GALPAO.getLiteral())) return TipoEnderecoEnum.GALPAO;
 		if(literal.equals(TipoEnderecoEnum.SALA_COMERCIAL.getLiteral())) return TipoEnderecoEnum.SALA_COMERCIAL;

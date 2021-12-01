@@ -17,6 +17,8 @@ public enum TipoCadastroEnum {
 	
 	public static TipoCadastroEnum atSymbol(String symbol) {
 		
+		if (symbol.isEmpty()) return null;
+		
 		switch(symbol.charAt(0)) {
 		case 'R':
 			return TipoCadastroEnum.RASCUNHO;
@@ -30,6 +32,8 @@ public enum TipoCadastroEnum {
 	}
 	
 	public static TipoCadastroEnum atLiteral(String literal) {
+		
+		if (literal.isEmpty()) return null;
 		
 		if(literal.equals(TipoCadastroEnum.RASCUNHO.getLiteral())) return TipoCadastroEnum.RASCUNHO;
 		if(literal.equals(TipoCadastroEnum.ATIVO.getLiteral())) return TipoCadastroEnum.ATIVO;

@@ -10,12 +10,15 @@ import com.temperosoft.scmfornecedores.core.business.strategy.AtivarFornecedor;
 import com.temperosoft.scmfornecedores.core.business.strategy.DefinirEntidadeAtiva;
 import com.temperosoft.scmfornecedores.core.business.strategy.DesativarFornecedor;
 import com.temperosoft.scmfornecedores.core.business.strategy.FindAllFornecedores;
+import com.temperosoft.scmfornecedores.core.business.strategy.FindAllFornecedoresAtivos;
 import com.temperosoft.scmfornecedores.core.business.strategy.FindFornecedorById;
 import com.temperosoft.scmfornecedores.core.business.strategy.GerarCodigoFornecedor;
 import com.temperosoft.scmfornecedores.core.business.strategy.PersistirContatosFornecedor;
 import com.temperosoft.scmfornecedores.core.business.strategy.PersistirDocumentoFornecedor;
 import com.temperosoft.scmfornecedores.core.business.strategy.PersistirFornecedor;
 import com.temperosoft.scmfornecedores.core.business.strategy.PersistirRelacoesFornecedorProduto;
+import com.temperosoft.scmfornecedores.core.business.strategy.ValidarCNPJUnico;
+import com.temperosoft.scmfornecedores.core.business.strategy.ValidarFormularioFornecedor;
 import com.temperosoft.scmfornecedores.domain.Fornecedor;
 
 @Configuration
@@ -51,9 +54,20 @@ public class FornecedorNavigation {
 	@Autowired
 	private AtivarFornecedor ativarFornecedor;
 	
+	@Autowired
+	private ValidarFormularioFornecedor validarFormularioFornecedor;
+	
+	@Autowired
+	private ValidarCNPJUnico validarCNPJUnico;
+	
+	@Autowired
+	private FindAllFornecedoresAtivos findAllFornecedoresAtivos;
+	
 	@Bean(name="PERSISTE_FORNECEDOR_SALVAR")
 	public Navigation<Fornecedor> persistirFornecedorSalvar() {
 		return new NavigationBuilder<Fornecedor>()
+				.next(validarFormularioFornecedor)
+				.next(validarCNPJUnico)
 				.next(gerarCodigoFornecedor)
 				.next(definirEntidadeAtiva)
 				.next(persistirFornecedor)
@@ -66,7 +80,8 @@ public class FornecedorNavigation {
 	@Bean(name="PERSISTE_FORNECEDOR_ATUALIZAR")
 	public Navigation<Fornecedor> persistirFornecedorAtualizar() {
 		return new NavigationBuilder<Fornecedor>()
-				.next(definirEntidadeAtiva)
+				.next(validarFormularioFornecedor)
+				.next(validarCNPJUnico)
 				.next(persistirFornecedor)
 				.next(persistirRelacoesFornecedorProduto)
 				.next(persistirContatosFornecedor)
@@ -99,6 +114,13 @@ public class FornecedorNavigation {
 	public Navigation<Fornecedor> ativarFornecedor() {
 		return new NavigationBuilder<Fornecedor>()
 				.next(ativarFornecedor)
+				.build();
+	}
+	
+	@Bean(name="CONSULTAR_FORNECEDORES_ATIVOS")
+	public Navigation<Fornecedor> consultarFornecedoresAtivos() {
+		return new NavigationBuilder<Fornecedor>()
+				.next(findAllFornecedoresAtivos)
 				.build();
 	}
 	

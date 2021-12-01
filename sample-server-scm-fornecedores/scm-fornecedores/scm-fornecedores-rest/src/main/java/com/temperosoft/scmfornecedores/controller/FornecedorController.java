@@ -60,7 +60,7 @@ public class FornecedorController {
 		try {
 			facade.persistsEntity(fornecedor, "PERSISTE_FORNECEDOR_SALVAR");
 		} catch (InvalidStrategyConditionException e) {
-			return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(e.getMessage());
+			return ResponseEntity.unprocessableEntity().body(e.getMessage());
 		}
 		return ResponseEntity.ok().build();
 	}
@@ -107,6 +107,18 @@ public class FornecedorController {
 		}
 		
 		return ResponseEntity.ok().build();
+	}
+	
+	@GetMapping(value="ativos", produces="application/json")
+	public @ResponseBody ResponseEntity<List<Fornecedor>> findAllFornecedoresAtivos() {
+		
+		Fornecedor f = new Fornecedor();
+
+		List<Fornecedor> fs = facade.findAll(f, "CONSULTAR_FORNECEDORES_ATIVOS");
+		
+		if (fs.isEmpty())
+			return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).build();
+		return ResponseEntity.ok(fs);
 	}
 
 }

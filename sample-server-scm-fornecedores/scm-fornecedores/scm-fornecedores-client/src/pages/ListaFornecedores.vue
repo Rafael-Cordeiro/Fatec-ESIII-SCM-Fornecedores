@@ -409,12 +409,16 @@
 </template>
 
 <script>
+import { useQuasar } from 'quasar'
 import { defineComponent } from 'vue'
 
 export default defineComponent({
   name: 'ListaFornecedores',
   setup () {
-    return {}
+    const $q = useQuasar()
+    return {
+      $q
+    }
   },
   data () {
     return {
@@ -440,7 +444,7 @@ export default defineComponent({
       listaFornecedores: [],
       insertUpdateDialog: false,
       viewDialog: false,
-      maximizedToggle: true,
+      maximizedToggle: false,
       // =============== dados de form ===============
       isUpdate: false,
       columnsProdutosTable: [
@@ -698,18 +702,78 @@ export default defineComponent({
     onSubmit () {
       if (this.isUpdate) {
         this.$axios.put(`http://localhost:9999/api/fornecedor/${this.fornecedor.id}`, this.fornecedor)
+          .then(res => {
+            this.$q.notify({
+              message: 'Atualização realizada com sucesso',
+              color: 'positive',
+              icon: 'check_circle_outline'
+            })
+            this.fetchFornecedores()
+            this.insertUpdateDialog = false
+          }).catch(error => {
+            console.log(error.response.data)
+            this.$q.notify({
+              message: error.response.data,
+              color: 'negative',
+              icon: 'error_outline'
+            })
+          })
       } else {
-        this.$axios.post('http://localhost:9999/api/fornecedor/')
+        this.$axios.post('http://localhost:9999/api/fornecedor/', this.fornecedor)
+          .then(res => {
+            this.$q.notify({
+              message: 'Cadastro realizado com sucesso',
+              color: 'positive',
+              icon: 'check_circle_outline'
+            })
+            document.location.reload(true)
+          }).catch(error => {
+            console.log(error.response.data)
+            this.$q.notify({
+              message: error.response.data,
+              color: 'negative',
+              icon: 'error_outline'
+            })
+          })
       }
-      document.location.reload(true)
     },
     openInactivationDialog (fornecedor) {
       this.$axios.delete(`http://localhost:9999/api/fornecedor/${fornecedor.id}`)
-      document.location.reload(true)
+        .then(res => {
+          this.$q.notify({
+            message: 'Fornecedor desativado com sucesso',
+            color: 'positive',
+            icon: 'check_circle_outline'
+          })
+          this.fetchFornecedores()
+          this.insertUpdateDialog = false
+        }).catch(error => {
+          console.log(error.response.data)
+          this.$q.notify({
+            message: `Erro ao desativar fornecedor ${error.response.data}`,
+            color: 'negative',
+            icon: 'error_outline'
+          })
+        })
     },
     openActivationDialog (fornecedor) {
       this.$axios.post(`http://localhost:9999/api/fornecedor/${fornecedor.id}`)
-      document.location.reload(true)
+        .then(res => {
+          this.$q.notify({
+            message: 'Fornecedor ativado com sucesso',
+            color: 'positive',
+            icon: 'check_circle_outline'
+          })
+          this.fetchFornecedores()
+          this.insertUpdateDialog = false
+        }).catch(error => {
+          console.log(error.response.data)
+          this.$q.notify({
+            message: `Erro ao ativar fornecedor ${error.response.data}`,
+            color: 'negative',
+            icon: 'error_outline'
+          })
+        })
     },
     incluirProduto (produto) {
       if (produto.usar) {
