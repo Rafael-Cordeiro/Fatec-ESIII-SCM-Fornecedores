@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.temperosoft.scmfornecedores.core.exception.InvalidStrategyConditionException;
-import com.temperosoft.scmfornecedores.core.facade.Facade;
+import com.temperosoft.scmfornecedores.core.facade.command.CommandContext;
 import com.temperosoft.scmfornecedores.domain.Servico;
 
 @RestController
@@ -26,14 +26,15 @@ import com.temperosoft.scmfornecedores.domain.Servico;
 public class ServicoController {
 
 	@Autowired
-	private Facade facade;
+	private CommandContext cmdCtx;
 	
 	@GetMapping(name="", produces="application/json")
 	public @ResponseBody ResponseEntity<List<Servico>> findAllServico() {
 		
 		Servico s = new Servico();
 		
-		List<Servico> ss = facade.findAll(s, "CONSULTAR_SERVICOS");
+		@SuppressWarnings("unchecked")
+		List<Servico> ss = (List<Servico>) cmdCtx.getCommands("FIND_ALL").execute(s, "CONSULTAR_SERVICOS");
 		
 		if (ss.isEmpty())
 			return ResponseEntity.notFound().build();
@@ -45,7 +46,7 @@ public class ServicoController {
 	public @ResponseBody ResponseEntity<String> createServico(@RequestBody Servico servico) {
 		
 		try {
-			facade.persistsEntity(servico, "PERSISTIR_SERVICO_SALVAR");
+			cmdCtx.getCommands("PERSISTS_ENTITY").execute(servico, "PERSISTIR_SERVICO_SALVAR");
 		} catch (InvalidStrategyConditionException e) {
 			return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(e.getMessage());
 		}
@@ -58,7 +59,7 @@ public class ServicoController {
 		servico.setId(id);
 		
 		try {
-			facade.persistsEntity(servico, "PERSISTIR_SERVICO_ATUALIZAR");
+			cmdCtx.getCommands("PERSISTS_ENTITY").execute(servico, "PERSISTIR_SERVICO_ATUALIZAR");
 		} catch (InvalidStrategyConditionException e) {
 			return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(e.getMessage());
 		}
@@ -72,7 +73,7 @@ public class ServicoController {
 		s.setId(id);
 		
 		try {
-			facade.inactivateEntity(s, "EXCLUIR_SERVICO");
+			cmdCtx.getCommands("PERSISTS_ENTITY").execute(s, "EXCLUIR_SERVICO");
 		} catch (InvalidStrategyConditionException e) {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
 		}

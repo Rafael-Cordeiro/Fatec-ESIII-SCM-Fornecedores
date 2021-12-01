@@ -112,7 +112,7 @@ public class DocumentoDAO extends AbstractDAO<Documento> {
 		return getJdbcTemplate().query(sql.toString(), new DocumentoRowMapper());
 	}
 	
-	public Boolean verificarExistenciaDocumento(String tipo, String codigo) {
+	public Boolean verificarExistenciaDocumento(String tipo, String codigo, Long forId) {
 		StringBuilder sql = new StringBuilder();
 		
 		sql.append("SELECT CASE ")
@@ -121,6 +121,7 @@ public class DocumentoDAO extends AbstractDAO<Documento> {
 				.append("FROM DOCUMENTOS ")
 				.append("WHERE doc_tipo = '").append(tipo).append("' ")
 				.append("AND doc_codigo = '").append(codigo).append("' ")
+				.append("AND doc_for_id <> '").append(forId).append("' ")
 			.append(") ")
 			.append("THEN TRUE ")
 			.append("ELSE FALSE ")

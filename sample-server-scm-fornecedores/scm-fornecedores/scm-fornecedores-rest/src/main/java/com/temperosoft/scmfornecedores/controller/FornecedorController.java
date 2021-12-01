@@ -17,7 +17,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.temperosoft.scmfornecedores.core.exception.InvalidStrategyConditionException;
-import com.temperosoft.scmfornecedores.core.facade.Facade;
+import com.temperosoft.scmfornecedores.core.facade.command.CommandContext;
+import com.temperosoft.scmfornecedores.core.facade.command.ICommand;
 import com.temperosoft.scmfornecedores.domain.Fornecedor;
 
 @RestController
@@ -26,15 +27,17 @@ import com.temperosoft.scmfornecedores.domain.Fornecedor;
 public class FornecedorController {
 	
 	@Autowired
-	private Facade facade;
-	
+	private CommandContext cmdCtx;
 	
 	@GetMapping(value="", produces="application/json")
 	public @ResponseBody ResponseEntity<List<Fornecedor>> findAllFornecedores() {
 		
 		Fornecedor f = new Fornecedor();
+		
+		ICommand cmd = cmdCtx.getCommands("FIND_ALL");
 
-		List<Fornecedor> fs = facade.findAll(f, "CONSULTAR_FORNECEDORES");
+		@SuppressWarnings("unchecked")
+		List<Fornecedor> fs = (List<Fornecedor>) cmd.execute(f, "CONSULTAR_FORNECEDORES");
 		
 		if (fs.isEmpty())
 			return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).build();
@@ -47,7 +50,9 @@ public class FornecedorController {
 		Fornecedor f = new Fornecedor();
 		f.setId(id);
 		
-		f = facade.findById(f, "CONSULTAR_FORNECEDOR_POR_ID");
+		ICommand cmd = cmdCtx.getCommands("FIND_BY_ID");
+		
+		f = (Fornecedor) cmd.execute(f, "CONSULTAR_FORNECEDOR_POR_ID");
 		
 		if (f == null)
 			return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).build();
@@ -57,8 +62,10 @@ public class FornecedorController {
 	@PostMapping(value="", produces="application/json")
 	public @ResponseBody ResponseEntity<String> createFornecedor(@RequestBody Fornecedor fornecedor) {
 		
+		ICommand cmd = cmdCtx.getCommands("PERSISTS_ENTITY");
+		
 		try {
-			facade.persistsEntity(fornecedor, "PERSISTE_FORNECEDOR_SALVAR");
+			cmd.execute(fornecedor, "PERSISTE_FORNECEDOR_SALVAR");
 		} catch (InvalidStrategyConditionException e) {
 			return ResponseEntity.unprocessableEntity().body(e.getMessage());
 		}
@@ -70,8 +77,10 @@ public class FornecedorController {
 		
 		fornecedor.setId(id);
 		
+		ICommand cmd = cmdCtx.getCommands("PERSISTS_ENTITY");
+		
 		try {
-			facade.persistsEntity(fornecedor, "PERSISTE_FORNECEDOR_ATUALIZAR");
+			cmd.execute(fornecedor, "PERSISTE_FORNECEDOR_ATUALIZAR");
 		} catch (InvalidStrategyConditionException e) {
 			return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(e.getMessage());
 		}
@@ -84,8 +93,10 @@ public class FornecedorController {
 		Fornecedor f = new Fornecedor();
 		f.setId(id);
 		
+		ICommand cmd = cmdCtx.getCommands("INACTIVATE_ENTITY");
+		
 		try {
-			facade.inactivateEntity(f, "DESATIVAR_FORNECEDOR");
+			cmd.execute(f, "DESATIVAR_FORNECEDOR");
 		} catch (InvalidStrategyConditionException e) {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
 		}
@@ -100,8 +111,10 @@ public class FornecedorController {
 		Fornecedor f = new Fornecedor();
 		f.setId(id);
 		
+		ICommand cmd = cmdCtx.getCommands("ACTIVATE_ENTITY");
+		
 		try {
-			facade.inactivateEntity(f, "ATIVAR_FORNECEDOR");
+			cmd.execute(f, "ATIVAR_FORNECEDOR");
 		} catch (InvalidStrategyConditionException e) {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
 		}
@@ -113,8 +126,11 @@ public class FornecedorController {
 	public @ResponseBody ResponseEntity<List<Fornecedor>> findAllFornecedoresAtivos() {
 		
 		Fornecedor f = new Fornecedor();
+		
+		ICommand cmd = cmdCtx.getCommands("FIND_ALL");
 
-		List<Fornecedor> fs = facade.findAll(f, "CONSULTAR_FORNECEDORES_ATIVOS");
+		@SuppressWarnings("unchecked")
+		List<Fornecedor> fs = (List<Fornecedor>) cmd.execute(f, "CONSULTAR_FORNECEDORES_ATIVOS");
 		
 		if (fs.isEmpty())
 			return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).build();

@@ -66,4 +66,24 @@ public class Facade implements IFacade {
 			throw new InvalidStrategyConditionException(aCase.getResult().getMessage());
 	}
 	
+	@Transactional
+	public <T extends AbstractDomain> void activateEntity(T aEntity, String businessCaseName) {
+		
+		BusinessCase<T> aCase = new BusinessCaseBuilder().withName(businessCaseName);
+		navigator.run(aEntity, aCase);
+		
+		if (aCase.isSuspendExecution())
+			throw new InvalidStrategyConditionException(aCase.getResult().getMessage());
+	}
+	
+	@Transactional
+	public <T extends AbstractDomain> void deleteEntity(T aEntity, String businessCaseName) {
+		
+		BusinessCase<T> aCase = new BusinessCaseBuilder().withName(businessCaseName);
+		navigator.run(aEntity, aCase);
+		
+		if (aCase.isSuspendExecution())
+			throw new InvalidStrategyConditionException(aCase.getResult().getMessage());
+	}
+	
 }

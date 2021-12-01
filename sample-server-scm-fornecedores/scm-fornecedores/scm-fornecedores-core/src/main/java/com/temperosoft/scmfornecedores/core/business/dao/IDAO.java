@@ -18,4 +18,8 @@ public interface IDAO<T extends AbstractDomain> {
 	
 	public Long delete(String status, Long id) throws DataAccessException, Exception;
 	
+	public void inactivate(T aEntity) throws DataAccessException, Exception;
+	
+	public void activate(T aEntity) throws DataAccessException, Exception;
+	
 }

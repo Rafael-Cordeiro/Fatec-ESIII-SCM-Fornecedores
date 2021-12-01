@@ -10,14 +10,15 @@ import lombok.Getter;
 public enum TipoCadastroEnum {
 	RASCUNHO("RASCUNHO","R"),
 	ATIVO("ATIVO","A"),
-	INATIVO("INATIVO","I");
+	INATIVO("INATIVO","I"),
+	UNDEFINED("","");
 	
 	private String literal;
 	private String symbol;
 	
 	public static TipoCadastroEnum atSymbol(String symbol) {
 		
-		if (symbol.isEmpty()) return null;
+		if (symbol.replace(" ", "").isEmpty()) return TipoCadastroEnum.UNDEFINED;
 		
 		switch(symbol.charAt(0)) {
 		case 'R':
@@ -33,7 +34,7 @@ public enum TipoCadastroEnum {
 	
 	public static TipoCadastroEnum atLiteral(String literal) {
 		
-		if (literal.isEmpty()) return null;
+		if (literal.replace(" ", "").isEmpty()) return TipoCadastroEnum.UNDEFINED;
 		
 		if(literal.equals(TipoCadastroEnum.RASCUNHO.getLiteral())) return TipoCadastroEnum.RASCUNHO;
 		if(literal.equals(TipoCadastroEnum.ATIVO.getLiteral())) return TipoCadastroEnum.ATIVO;

@@ -10,14 +10,15 @@ import lombok.Getter;
 public enum TipoEnderecoEnum {
 	GALPAO("GALPAO","G"),
 	SALA_COMERCIAL("SALA_COMERCIAL","S"),
-	EDIFICIO("EDIFICIO","E");
+	EDIFICIO("EDIFICIO","E"),
+	UNDEFINED("","");
 	
 	private String literal;
 	private String symbol;
 	
 	public static TipoEnderecoEnum atSymbol(String symbol) {
 		
-		if (symbol.isEmpty()) return null;
+		if (symbol.replace(" ", "").isEmpty()) return TipoEnderecoEnum.UNDEFINED;
 		
 		switch(symbol.charAt(0)) {
 		case 'G':
@@ -33,7 +34,7 @@ public enum TipoEnderecoEnum {
 	
 	public static TipoEnderecoEnum atLiteral(String literal) {
 		
-		if (literal.isEmpty()) return null;
+		if (literal.replace(" ", "").isEmpty()) return TipoEnderecoEnum.UNDEFINED;
 
 		if(literal.equals(TipoEnderecoEnum.GALPAO.getLiteral())) return TipoEnderecoEnum.GALPAO;
 		if(literal.equals(TipoEnderecoEnum.SALA_COMERCIAL.getLiteral())) return TipoEnderecoEnum.SALA_COMERCIAL;

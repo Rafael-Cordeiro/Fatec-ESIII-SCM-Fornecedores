@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 import com.dvsmedeiros.bce.core.controller.INavigationCase;
 import com.dvsmedeiros.bce.core.controller.business.IStrategy;
 import com.temperosoft.scmfornecedores.core.business.dao.DocumentoDAO;
+import com.temperosoft.scmfornecedores.core.utils.ValidationUtils;
 import com.temperosoft.scmfornecedores.domain.Documento;
 import com.temperosoft.scmfornecedores.domain.Fornecedor;
 
@@ -29,7 +30,7 @@ public class ValidarCNPJUnico implements IStrategy<Fornecedor> {
 				if (doc.getTipoDocumento().getDescricao().equals("cnpj"))
 					documento = doc;
 			
-			if (documentoDAO.verificarExistenciaDocumento("cnpj", documento.getCodigo()))
+			if (documentoDAO.verificarExistenciaDocumento("cnpj", documento.getCodigo(), ValidationUtils.returnIdOrNull(aEntity)))
 				aCase.suspendExecution("CNPJ já existe no sistema");
 			
 			logger.info("CNPJ {} consultado", documento);

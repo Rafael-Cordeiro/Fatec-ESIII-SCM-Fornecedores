@@ -10,7 +10,6 @@ import com.dvsmedeiros.bce.core.controller.business.IStrategy;
 import com.temperosoft.scmfornecedores.core.business.dao.FornecedorDAO;
 import com.temperosoft.scmfornecedores.core.utils.Log;
 import com.temperosoft.scmfornecedores.domain.Fornecedor;
-import com.temperosoft.scmfornecedores.domain.enums.TipoCadastroEnum;
 
 @Component
 public class DesativarFornecedor implements IStrategy<Fornecedor> {
@@ -23,8 +22,8 @@ public class DesativarFornecedor implements IStrategy<Fornecedor> {
 	public void process(Fornecedor aEntity, INavigationCase<Fornecedor> aCase) {
 		
 		try {
-			Long row = fornecedorDAO.delete(TipoCadastroEnum.INATIVO.getLiteral(), aEntity.getId());
-			logger.info("{} fornecedor(es) desativado(s)", row);
+			fornecedorDAO.inactivate(aEntity);
+			logger.info("Fornecedor " + aEntity.getCodigo() + " inativado");
 		} catch (Exception e) {
 			Log.suspendExecutionThenLogException("Erro ao desativar fornecedor", DesativarFornecedor.class, aCase, e);
 		}
