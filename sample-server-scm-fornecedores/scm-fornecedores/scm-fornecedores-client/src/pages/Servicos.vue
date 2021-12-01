@@ -264,7 +264,22 @@ export default defineComponent({
     },
     openDeleteDialog (servico) {
       this.$axios.delete(`http://localhost:9999/api/servico/${servico.id}`)
-      document.location.reload(true)
+        .then(res => {
+          this.$q.notify({
+            message: 'Serviço excluido com sucesso',
+            color: 'positive',
+            icon: 'check_circle_outline'
+          })
+          this.fetchServicos()
+          this.insertUpdateDialog = false
+        }).catch(error => {
+          console.log(error.response.data)
+          this.$q.notify({
+            message: `Erro ao excluir serviço ${error.response.data}`,
+            color: 'negative',
+            icon: 'error_outline'
+          })
+        })
     },
     submitServico () {
       this.servico.dataInicio = this.servico.dataInicio.replace('/', '-')
@@ -288,6 +303,8 @@ export default defineComponent({
       console.log(this.listaFornecedores)
     },
     fetchServicos () {
+      this.servicos = this.Servico()
+      this.listaServicos = []
       this.$axios.get('http://localhost:9999/api/servico/')
         .then((res) => {
           this.servicos = res.data
