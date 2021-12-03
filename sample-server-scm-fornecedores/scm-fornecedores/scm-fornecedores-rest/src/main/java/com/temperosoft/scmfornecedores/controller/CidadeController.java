@@ -32,9 +32,9 @@ public class CidadeController {
 		c.setCodigo(codigo);
 		
 		try {
-			c = (Cidade) cmdCtx.getCommands("FIND_BY_ID").execute(c, "CONSULTAR_CIDADE_POR_CODIGO");			
+			c = (Cidade) cmdCtx.getCommand("FIND_BY_ID").execute(c, "CONSULTAR_CIDADE_POR_CODIGO");			
 		} catch (InvalidStrategyConditionException e) {
-			ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(e.getMessage());
+			ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
 		}
 
 		return ResponseEntity.ok(c);
@@ -47,9 +47,9 @@ public class CidadeController {
 		c.setId(id);
 		
 		try {
-			c = (Cidade) cmdCtx.getCommands("FIND_BY_ID").execute(c, "CONSULTAR_CIDADE_POR_ID");			
+			c = (Cidade) cmdCtx.getCommand("FIND_BY_ID").execute(c, "CONSULTAR_CIDADE_POR_ID");			
 		} catch (InvalidStrategyConditionException e) {
-			ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(e.getMessage());
+			ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
 		}
 
 		return ResponseEntity.ok(c);
@@ -61,10 +61,10 @@ public class CidadeController {
 		Cidade c = new Cidade();
 		
 		@SuppressWarnings("unchecked")
-		List<Cidade> cs = (List<Cidade>) cmdCtx.getCommands("FIND_ALL").execute(c, "CONSULTAR_CIDADES");
+		List<Cidade> cs = (List<Cidade>) cmdCtx.getCommand("FIND_ALL").execute(c, "CONSULTAR_CIDADES");
 		
 		if(cs.isEmpty())
-			return ResponseEntity.unprocessableEntity().build();
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
 		return ResponseEntity.ok(cs);
 	}
 	
@@ -76,10 +76,10 @@ public class CidadeController {
 		c.getEstado().setId(id);
 		
 		@SuppressWarnings("unchecked")
-		List<Cidade> cs = (List<Cidade>) cmdCtx.getCommands("FIND_ALL").execute(c, "FIND_CIDADES_BY_ESTADO");
+		List<Cidade> cs = (List<Cidade>) cmdCtx.getCommand("FIND_ALL").execute(c, "FIND_CIDADES_BY_ESTADO");
 		
 		if(cs.isEmpty())
-			return ResponseEntity.unprocessableEntity().build();
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
 		return ResponseEntity.ok(cs);
 		
 	}

@@ -1,0 +1,283 @@
+-- CIDADES
+
+CREATE OR REPLACE FUNCTION proc_tg_cidade_audit()
+RETURNS TRIGGER AS $internal_proc_tg_audit$
+BEGIN
+    IF (TG_OP = 'INSERT') THEN 
+        CALL INSERT_AUDIT(CURRENT_TIMESTAMP::TIMESTAMP, 'I', 'CIDADES', 'SCM', NULL, NULL, NULL, NEW.cid_id::VARCHAR, CURRENT_USER::VARCHAR);
+    ELSIF (TG_OP = 'UPDATE') THEN
+        IF (OLD.cid_codigo <> NEW.cid_codigo) THEN
+            CALL INSERT_AUDIT(CURRENT_TIMESTAMP::TIMESTAMP, 'U', 'CIDADES', 'SCM', 'CID_CODIGO', OLD.cid_codigo::VARCHAR, NEW.cid_codigo::VARCHAR, NEW.cid_id::VARCHAR, CURRENT_USER::VARCHAR);
+        END IF;
+        IF (OLD.cid_descricao <> NEW.cid_descricao) THEN
+            CALL INSERT_AUDIT(CURRENT_TIMESTAMP::TIMESTAMP, 'U', 'CIDADES', 'SCM', 'CID_DESCRICAO', OLD.cid_descricao::VARCHAR, NEW.cid_descricao::VARCHAR, NEW.cid_id::VARCHAR, CURRENT_USER::VARCHAR);
+        END IF;
+        IF (OLD.cid_est_id <> NEW.cid_est_id) THEN
+            CALL INSERT_AUDIT(CURRENT_TIMESTAMP::TIMESTAMP, 'U', 'CIDADES', 'SCM', 'CID_EST_ID', OLD.cid_est_id::VARCHAR, NEW.cid_est_id::VARCHAR, NEW.cid_id::VARCHAR, CURRENT_USER::VARCHAR);
+        END IF;
+        IF (OLD.cid_tipo_cadastro <> NEW.cid_tipo_cadastro) THEN
+            CALL INSERT_AUDIT(CURRENT_TIMESTAMP::TIMESTAMP, 'U', 'CIDADES', 'SCM', 'CID_TIPO_CADASTRO', OLD.cid_tipo_cadastro::VARCHAR, NEW.cid_tipo_cadastro::VARCHAR, NEW.cid_id::VARCHAR, CURRENT_USER::VARCHAR);
+        END IF;
+    ELSIF (TG_OP = 'DELETE') THEN
+        CALL INSERT_AUDIT(CURRENT_TIMESTAMP::TIMESTAMP, 'D', 'CIDADES', 'SCM', NULL, NULL, NULL, OLD.cid_id::VARCHAR, CURRENT_USER::VARCHAR);
+    END IF;
+    RETURN NULL;
+END;
+$internal_proc_tg_audit$ LANGUAGE PLPGSQL;
+
+CREATE TRIGGER tg_cidade_audit
+AFTER INSERT OR UPDATE OR DELETE ON CIDADES
+FOR EACH ROW EXECUTE PROCEDURE proc_tg_cidade_audit();
+
+-- CONTATOS
+
+CREATE OR REPLACE FUNCTION proc_tg_contato_audit()
+RETURNS TRIGGER AS $internal_proc_tg_audit$
+BEGIN
+    IF (TG_OP = 'INSERT') THEN
+        CALL INSERT_AUDIT(CURRENT_TIMESTAMP::TIMESTAMP, 'I', 'CONTATOS', 'SCM', NULL, NULL, NULL, NEW.con_id::VARCHAR, CURRENT_USER::VARCHAR);
+    ELSIF (TG_OP = 'UPDATE') THEN
+        IF (OLD.con_codigo <> NEW.con_codigo) THEN
+            CALL INSERT_AUDIT(CURRENT_TIMESTAMP::TIMESTAMP, 'U', 'CONTATOS', 'SCM', 'CON_CODIGO', OLD.con_codigo::VARCHAR, NEW.con_codigo::VARCHAR, NEW.con_id::VARCHAR, CURRENT_USER::VARCHAR);
+        END IF;
+        IF (OLD.con_ddi <> NEW.con_ddi) THEN
+            CALL INSERT_AUDIT(CURRENT_TIMESTAMP::TIMESTAMP, 'U', 'CONTATOS', 'SCM', 'CON_DDI', OLD.con_ddi::VARCHAR, NEW.con_ddi::VARCHAR, NEW.con_id::VARCHAR, CURRENT_USER::VARCHAR);
+        END IF;
+        IF (OLD.con_ddd <> NEW.con_ddd) THEN
+            CALL INSERT_AUDIT(CURRENT_TIMESTAMP::TIMESTAMP, 'U', 'CONTATOS', 'SCM', 'CON_DDD', OLD.con_ddd::VARCHAR, NEW.con_ddd::VARCHAR, NEW.con_id::VARCHAR, CURRENT_USER::VARCHAR);
+        END IF;
+        IF (OLD.con_telefone <> NEW.con_telefone) THEN
+            CALL INSERT_AUDIT(CURRENT_TIMESTAMP::TIMESTAMP, 'U', 'CONTATOS', 'SCM', 'CON_TELEFONE', OLD.con_telefone::VARCHAR, NEW.con_telefone::VARCHAR, NEW.con_id::VARCHAR, CURRENT_USER::VARCHAR);
+        END IF;
+        IF (OLD.con_ramal <> NEW.con_ramal) THEN
+            CALL INSERT_AUDIT(CURRENT_TIMESTAMP::TIMESTAMP, 'U', 'CONTATOS', 'SCM', 'CON_RAMAL', OLD.con_ramal::VARCHAR, NEW.con_ramal::VARCHAR, NEW.con_id::VARCHAR, CURRENT_USER::VARCHAR);
+        END IF;
+        IF (OLD.con_tipo_telefone <> NEW.con_tipo_telefone) THEN
+            CALL INSERT_AUDIT(CURRENT_TIMESTAMP::TIMESTAMP, 'U', 'CONTATOS', 'SCM', 'CON_TIPO_TELEFONE', OLD.con_tipo_telefone::VARCHAR, NEW.con_tipo_telefone::VARCHAR, NEW.con_id::VARCHAR, CURRENT_USER::VARCHAR);
+        END IF;
+        IF (OLD.con_nome <> NEW.con_nome) THEN
+            CALL INSERT_AUDIT(CURRENT_TIMESTAMP::TIMESTAMP, 'U', 'CONTATOS', 'SCM', 'CON_NOME', OLD.con_nome::VARCHAR, NEW.con_nome::VARCHAR, NEW.con_id::VARCHAR, CURRENT_USER::VARCHAR);
+        END IF;
+        IF (OLD.con_email <> NEW.con_email) THEN
+            CALL INSERT_AUDIT(CURRENT_TIMESTAMP::TIMESTAMP, 'U', 'CONTATOS', 'SCM', 'CON_EMAIL', OLD.con_email::VARCHAR, NEW.con_email::VARCHAR, NEW.con_id::VARCHAR, CURRENT_USER::VARCHAR);
+        END IF;
+        IF (OLD.con_departamento <> NEW.con_departamento) THEN
+            CALL INSERT_AUDIT(CURRENT_TIMESTAMP::TIMESTAMP, 'U', 'CONTATOS', 'SCM', 'CON_DEPARTAMENTO', OLD.con_departamento::VARCHAR, NEW.con_departamento::VARCHAR, NEW.con_id::VARCHAR, CURRENT_USER::VARCHAR);
+        END IF;
+        IF (OLD.con_for_id <> NEW.con_for_id) THEN
+            CALL INSERT_AUDIT(CURRENT_TIMESTAMP::TIMESTAMP, 'U', 'CONTATOS', 'SCM', 'CON_DEPARTAMENTO', OLD.con_departamento::VARCHAR, NEW.con_departamento::VARCHAR, NEW.con_id::VARCHAR, CURRENT_USER::VARCHAR);
+        END IF;
+        IF (OLD.con_tipo_cadastro <> NEW.con_tipo_cadastro) THEN
+            CALL INSERT_AUDIT(CURRENT_TIMESTAMP::TIMESTAMP, 'U', 'CONTATOS', 'SCM', 'CON_TIPO_CADASTRO', OLD.con_tipo_cadastro::VARCHAR, NEW.con_tipo_cadastro::VARCHAR, NEW.con_id::VARCHAR, CURRENT_USER::VARCHAR);
+        END IF;
+    ELSIF (TG_OP = 'DELETE') THEN
+        CALL INSERT_AUDIT(CURRENT_TIMESTAMP::TIMESTAMP, 'D', 'CONTATOS', 'SCM', NULL, NULL, NULL, OLD.con_id::VARCHAR, CURRENT_USER::VARCHAR);
+    END IF;
+    RETURN NULL;
+END;
+$internal_proc_tg_audit$ LANGUAGE PLPGSQL;
+
+CREATE TRIGGER tg_contato_audit
+AFTER INSERT OR UPDATE OR DELETE ON CONTATOS
+FOR EACH ROW EXECUTE PROCEDURE proc_tg_contato_audit();
+
+-- DOCUMENTOS
+
+CREATE OR REPLACE FUNCTION proc_tg_documento_audit()
+RETURNS TRIGGER AS $internal_proc_tg_audit$
+BEGIN
+    IF (TG_OP = 'INSERT') THEN
+        CALL INSERT_AUDIT(CURRENT_TIMESTAMP::TIMESTAMP, 'I', 'DOCUMENTOS', 'SCM', NULL, NULL, NULL, NEW.doc_id::VARCHAR, CURRENT_USER::VARCHAR);
+    ELSIF (TG_OP = 'UPDATE') THEN
+        IF (OLD.doc_codigo <> NEW.doc_codigo) THEN
+            CALL INSERT_AUDIT(CURRENT_TIMESTAMP::TIMESTAMP, 'U', 'DOCUMENTOS', 'SCM', 'DOC_CODIGO', OLD.doc_codigo::VARCHAR, NEW.doc_codigo::VARCHAR, NEW.doc_id::VARCHAR, CURRENT_USER::VARCHAR);
+        END IF;
+        IF (OLD.doc_tipo <> NEW.doc_tipo) THEN
+            CALL INSERT_AUDIT(CURRENT_TIMESTAMP::TIMESTAMP, 'U', 'DOCUMENTOS', 'SCM', 'DOC_TIPO', OLD.doc_tipo::VARCHAR, NEW.doc_tipo::VARCHAR, NEW.doc_id::VARCHAR, CURRENT_USER::VARCHAR);
+        END IF;
+        IF (OLD.doc_for_id <> NEW.doc_for_id) THEN
+            CALL INSERT_AUDIT(CURRENT_TIMESTAMP::TIMESTAMP, 'U', 'DOCUMENTOS', 'SCM', 'DOC_FOR_ID', OLD.doc_for_id::VARCHAR, NEW.doc_for_id::VARCHAR, NEW.doc_id::VARCHAR, CURRENT_USER::VARCHAR);
+        END IF;
+        IF (OLD.doc_tipo_cadastro <> NEW.doc_tipo_cadastro) THEN
+            CALL INSERT_AUDIT(CURRENT_TIMESTAMP::TIMESTAMP, 'U', 'DOCUMENTOS', 'SCM', 'DOC_TIPO_CADASTRO', OLD.doc_tipo_cadastro::VARCHAR, NEW.doc_tipo_cadastro::VARCHAR, NEW.doc_id::VARCHAR, CURRENT_USER::VARCHAR);
+        END IF;
+    ELSIF (TG_OP = 'DELETE') THEN
+        CALL INSERT_AUDIT(CURRENT_TIMESTAMP::TIMESTAMP, 'D', 'DOCUMENTOS', 'SCM', NULL, NULL, NULL, OLD.doc_id::VARCHAR, CURRENT_USER::VARCHAR);
+    END IF;
+    RETURN NULL;
+END;
+$internal_proc_tg_audit$ LANGUAGE PLPGSQL;
+
+CREATE TRIGGER tg_documento_audit
+AFTER INSERT OR UPDATE OR DELETE ON DOCUMENTOS
+FOR EACH ROW EXECUTE PROCEDURE proc_tg_documento_audit();
+
+-- ESTADOS
+
+CREATE OR REPLACE FUNCTION proc_tg_estados_audit()
+RETURNS TRIGGER AS $internal_proc_tg_audit$
+BEGIN
+    IF (TG_OP = 'INSERT') THEN 
+        CALL INSERT_AUDIT(CURRENT_TIMESTAMP::TIMESTAMP, 'I', 'ESTADOS', 'SCM', NULL, NULL, NULL, NEW.est_id::VARCHAR, CURRENT_USER::VARCHAR);
+    ELSIF (TG_OP = 'UPDATE') THEN
+        IF (OLD.est_codigo <> NEW.est_codigo) THEN
+            CALL INSERT_AUDIT(CURRENT_TIMESTAMP::TIMESTAMP, 'U', 'ESTADOS', 'SCM', 'EST_CODIGO', OLD.est_codigo::VARCHAR, NEW.est_codigo::VARCHAR, NEW.est_id::VARCHAR, CURRENT_USER::VARCHAR);
+        END IF;
+        IF (OLD.est_descricao <> NEW.est_descricao) THEN
+            CALL INSERT_AUDIT(CURRENT_TIMESTAMP::TIMESTAMP, 'U', 'ESTADOS', 'SCM', 'EST_DESCRICAO', OLD.est_descricao::VARCHAR, NEW.est_descricao::VARCHAR, NEW.est_id::VARCHAR, CURRENT_USER::VARCHAR);
+        END IF;
+        IF (OLD.est_pai_id <> NEW.est_pai_id) THEN
+            CALL INSERT_AUDIT(CURRENT_TIMESTAMP::TIMESTAMP, 'U', 'ESTADOS', 'SCM', 'EST_PAI_ID', OLD.est_pai_id::VARCHAR, NEW.est_pai_id::VARCHAR, NEW.est_id::VARCHAR, CURRENT_USER::VARCHAR);
+        END IF;
+        IF (OLD.est_tipo_cadastro <> NEW.est_tipo_cadastro) THEN
+            CALL INSERT_AUDIT(CURRENT_TIMESTAMP::TIMESTAMP, 'U', 'ESTADOS', 'SCM', 'EST_TIPO_CADASTRO', OLD.est_tipo_cadastro::VARCHAR, NEW.est_tipo_cadastro::VARCHAR, NEW.est_id::VARCHAR, CURRENT_USER::VARCHAR);
+        END IF;
+    ELSIF (TG_OP = 'DELETE') THEN
+        CALL INSERT_AUDIT(CURRENT_TIMESTAMP::TIMESTAMP, 'D', 'ESTADOS', 'SCM', NULL, NULL, NULL, OLD.est_id::VARCHAR, CURRENT_USER::VARCHAR);
+    END IF;
+    RETURN NULL;
+END;
+$internal_proc_tg_audit$ LANGUAGE PLPGSQL;
+
+CREATE TRIGGER tg_estado_audit
+AFTER INSERT OR UPDATE OR DELETE ON ESTADOS
+FOR EACH ROW EXECUTE PROCEDURE proc_tg_estados_audit();
+
+-- FORNECEDORES
+
+CREATE OR REPLACE FUNCTION proc_tg_fornecedor_audit()
+RETURNS TRIGGER AS $internal_proc_tg_audit$
+BEGIN
+	IF (TG_OP = 'INSERT') THEN
+		CALL INSERT_AUDIT(CURRENT_TIMESTAMP::TIMESTAMP, 'I', 'FORNECEDORES', 'SCM', NULL, NULL, NULL, NEW.for_id::VARCHAR, CURRENT_USER::VARCHAR);
+	ELSIF (TG_OP = 'UPDATE') THEN
+		IF (OLD.for_razao_social <> NEW.for_razao_social) THEN
+			CALL INSERT_AUDIT(CURRENT_TIMESTAMP::TIMESTAMP, 'U', 'FORNECEDORES', 'SCM', 'FOR_RAZAO_SOCIAL', OLD.for_razao_social::VARCHAR, NEW.for_razao_social::VARCHAR, NEW.for_id::VARCHAR, CURRENT_USER::VARCHAR);
+		END IF;
+        IF (OLD.for_nome_fantasia <> NEW.for_nome_fantasia) THEN
+			CALL INSERT_AUDIT(CURRENT_TIMESTAMP::TIMESTAMP, 'U', 'FORNECEDORES', 'SCM', 'FOR_NOME_FANTASIA', OLD.for_nome_fantasia::VARCHAR, NEW.for_nome_fantasia::VARCHAR, NEW.for_id::VARCHAR, CURRENT_USER::VARCHAR);
+		END IF;
+        IF (OLD.for_codigo <> NEW.for_codigo) THEN
+			CALL INSERT_AUDIT(CURRENT_TIMESTAMP::TIMESTAMP, 'U', 'FORNECEDORES', 'SCM', 'FOR_CODIGO', OLD.for_codigo::VARCHAR, NEW.for_codigo::VARCHAR, NEW.for_id::VARCHAR, CURRENT_USER::VARCHAR);
+		END IF;
+        IF (OLD.for_tipo_endereco <> NEW.for_tipo_endereco) THEN
+			CALL INSERT_AUDIT(CURRENT_TIMESTAMP::TIMESTAMP, 'U', 'FORNECEDORES', 'SCM', 'FOR_TIPO_ENDERECO', OLD.for_tipo_endereco::VARCHAR, NEW.for_tipo_endereco::VARCHAR, NEW.for_id::VARCHAR, CURRENT_USER::VARCHAR);
+		END IF;
+        IF (OLD.for_logradouro <> NEW.for_logradouro) THEN
+			CALL INSERT_AUDIT(CURRENT_TIMESTAMP::TIMESTAMP, 'U', 'FORNECEDORES', 'SCM', 'FOR_LOGRADOURO', OLD.for_logradouro::VARCHAR, NEW.for_logradouro::VARCHAR, NEW.for_id::VARCHAR, CURRENT_USER::VARCHAR);
+		END IF;
+        IF (OLD.for_tipo_logradouro <> NEW.for_tipo_logradouro) THEN
+			CALL INSERT_AUDIT(CURRENT_TIMESTAMP::TIMESTAMP, 'U', 'FORNECEDORES', 'SCM', 'FOR_TIPO_LOGRADOURO', OLD.for_tipo_logradouro::VARCHAR, NEW.for_tipo_logradouro::VARCHAR, NEW.for_id::VARCHAR, CURRENT_USER::VARCHAR);
+		END IF;
+        IF (OLD.for_numero <> NEW.for_numero) THEN
+			CALL INSERT_AUDIT(CURRENT_TIMESTAMP::TIMESTAMP, 'U', 'FORNECEDORES', 'SCM', 'FOR_NUMERO', OLD.for_numero::VARCHAR, NEW.for_numero::VARCHAR, NEW.for_id::VARCHAR, CURRENT_USER::VARCHAR);
+		END IF;
+        IF (OLD.for_bairro <> NEW.for_bairro) THEN
+			CALL INSERT_AUDIT(CURRENT_TIMESTAMP::TIMESTAMP, 'U', 'FORNECEDORES', 'SCM', 'FOR_BAIRRO', OLD.for_bairro::VARCHAR, NEW.for_bairro::VARCHAR, NEW.for_id::VARCHAR, CURRENT_USER::VARCHAR);
+		END IF;
+        IF (OLD.for_cep <> NEW.for_cep) THEN
+			CALL INSERT_AUDIT(CURRENT_TIMESTAMP::TIMESTAMP, 'U', 'FORNECEDORES', 'SCM', 'FOR_CEP', OLD.for_cep::VARCHAR, NEW.for_cep::VARCHAR, NEW.for_id::VARCHAR, CURRENT_USER::VARCHAR);
+		END IF;
+        IF (OLD.for_cid_id <> NEW.for_cid_id) THEN
+			CALL INSERT_AUDIT(CURRENT_TIMESTAMP::TIMESTAMP, 'U', 'FORNECEDORES', 'SCM', 'FOR_CID_ID', OLD.for_cid_id::VARCHAR, NEW.for_cid_id::VARCHAR, NEW.for_id::VARCHAR, CURRENT_USER::VARCHAR);
+		END IF;
+        IF (OLD.for_tipo_cadastro <> NEW.for_tipo_cadastro) THEN
+			CALL INSERT_AUDIT(CURRENT_TIMESTAMP::TIMESTAMP, 'U', 'FORNECEDORES', 'SCM', 'FOR_TIPO_CADASTRO', OLD.for_tipo_cadastro::VARCHAR, NEW.for_tipo_cadastro::VARCHAR, NEW.for_id::VARCHAR, CURRENT_USER::VARCHAR);
+		END IF;
+	ELSIF (TG_OP = 'DELETE') THEN
+		CALL INSERT_AUDIT(CURRENT_TIMESTAMP::TIMESTAMP, 'D', 'FORNECEDORES', 'SCM', NULL, NULL, NULL, OLD.for_id::VARCHAR, CURRENT_USER::VARCHAR);
+	END IF;
+	RETURN NULL;
+END;
+$internal_proc_tg_audit$ LANGUAGE PLPGSQL;
+
+CREATE TRIGGER tg_fornecedor_audit
+AFTER INSERT OR UPDATE OR DELETE ON FORNECEDORES
+FOR EACH ROW EXECUTE PROCEDURE proc_tg_fornecedor_audit();
+
+-- PAISES
+
+CREATE OR REPLACE FUNCTION proc_tg_paises_audit()
+RETURNS TRIGGER AS $internal_proc_tg_audit$
+BEGIN
+    IF (TG_OP = 'INSERT') THEN 
+        CALL INSERT_AUDIT(CURRENT_TIMESTAMP::TIMESTAMP, 'I', 'PAISES', 'SCM', NULL, NULL, NULL, NEW.pai_id::VARCHAR, CURRENT_USER::VARCHAR);
+    ELSIF (TG_OP = 'UPDATE') THEN
+        IF (OLD.pai_codigo <> NEW.pai_codigo) THEN
+            CALL INSERT_AUDIT(CURRENT_TIMESTAMP::TIMESTAMP, 'U', 'PAISES', 'SCM', 'PAI_CODIGO', OLD.pai_codigo::VARCHAR, NEW.pai_codigo::VARCHAR, NEW.pai_id::VARCHAR, CURRENT_USER::VARCHAR);
+        END IF;
+        IF (OLD.pai_descricao <> NEW.pai_descricao) THEN
+            CALL INSERT_AUDIT(CURRENT_TIMESTAMP::TIMESTAMP, 'U', 'PAISES', 'SCM', 'PAI_DESCRICAO', OLD.pai_descricao::VARCHAR, NEW.pai_descricao::VARCHAR, NEW.pai_id::VARCHAR, CURRENT_USER::VARCHAR);
+        END IF;
+        IF (OLD.pai_tipo_cadastro <> NEW.pai_tipo_cadastro) THEN
+            CALL INSERT_AUDIT(CURRENT_TIMESTAMP::TIMESTAMP, 'U', 'PAISES', 'SCM', 'PAI_TIPO_CADASTRO', OLD.pai_tipo_cadastro::VARCHAR, NEW.pai_tipo_cadastro::VARCHAR, NEW.pai_id::VARCHAR, CURRENT_USER::VARCHAR);
+        END IF;
+    ELSIF (TG_OP = 'DELETE') THEN
+        CALL INSERT_AUDIT(CURRENT_TIMESTAMP::TIMESTAMP, 'D', 'PAISES', 'SCM', NULL, NULL, NULL, OLD.pai_id::VARCHAR, CURRENT_USER::VARCHAR);
+    END IF;
+    RETURN NULL;
+END;
+$internal_proc_tg_audit$ LANGUAGE PLPGSQL;
+
+CREATE TRIGGER tg_pais_audit
+AFTER INSERT OR UPDATE OR DELETE ON PAISES
+FOR EACH ROW EXECUTE PROCEDURE proc_tg_paises_audit();
+
+-- PRODUTOS
+
+CREATE OR REPLACE FUNCTION proc_tg_produtos_audit()
+RETURNS TRIGGER AS $internal_proc_tg_audit$
+BEGIN
+    IF (TG_OP = 'INSERT') THEN 
+        CALL INSERT_AUDIT(CURRENT_TIMESTAMP::TIMESTAMP, 'I', 'PRODUTOS', 'SCM', NULL, NULL, NULL, NEW.pro_id::VARCHAR, CURRENT_USER::VARCHAR);
+    ELSIF (TG_OP = 'UPDATE') THEN
+        IF (OLD.pro_codigo <> NEW.pro_codigo) THEN
+            CALL INSERT_AUDIT(CURRENT_TIMESTAMP::TIMESTAMP, 'U', 'PRODUTOS', 'SCM', 'PRO_CODIGO', OLD.pro_codigo::VARCHAR, NEW.pro_codigo::VARCHAR, NEW.pro_id::VARCHAR, CURRENT_USER::VARCHAR);
+        END IF;
+        IF (OLD.pro_descricao <> NEW.pro_descricao) THEN
+            CALL INSERT_AUDIT(CURRENT_TIMESTAMP::TIMESTAMP, 'U', 'PRODUTOS', 'SCM', 'PRO_DESCRICAO', OLD.pro_descricao::VARCHAR, NEW.pro_descricao::VARCHAR, NEW.pro_id::VARCHAR, CURRENT_USER::VARCHAR);
+        END IF;
+        IF (OLD.pro_tipo_cadastro <> NEW.pro_tipo_cadastro) THEN
+            CALL INSERT_AUDIT(CURRENT_TIMESTAMP::TIMESTAMP, 'U', 'PRODUTOS', 'SCM', 'PRO_TIPO_CADASTRO', OLD.pro_tipo_cadastro::VARCHAR, NEW.pro_tipo_cadastro::VARCHAR, NEW.pro_id::VARCHAR, CURRENT_USER::VARCHAR);
+        END IF;
+    ELSIF (TG_OP = 'DELETE') THEN
+        CALL INSERT_AUDIT(CURRENT_TIMESTAMP::TIMESTAMP, 'D', 'PRODUTOS', 'SCM', NULL, NULL, NULL, OLD.pro_id::VARCHAR, CURRENT_USER::VARCHAR);
+    END IF;
+    RETURN NULL;
+END;
+$internal_proc_tg_audit$ LANGUAGE PLPGSQL;
+
+CREATE TRIGGER tg_produto_audit
+AFTER INSERT OR UPDATE OR DELETE ON PRODUTOS
+FOR EACH ROW EXECUTE PROCEDURE proc_tg_produtos_audit();
+
+-- SERVICOS
+
+CREATE OR REPLACE FUNCTION proc_tg_servicos_audit()
+RETURNS TRIGGER AS $internal_proc_tg_audit$
+BEGIN
+    IF (TG_OP = 'INSERT') THEN 
+        CALL INSERT_AUDIT(CURRENT_TIMESTAMP::TIMESTAMP, 'I', 'SERVICOS', 'SCM', NULL, NULL, NULL, NEW.ser_id::VARCHAR, CURRENT_USER::VARCHAR);
+    ELSIF (TG_OP = 'UPDATE') THEN
+        IF (OLD.ser_codigo <> NEW.ser_codigo) THEN
+            CALL INSERT_AUDIT(CURRENT_TIMESTAMP::TIMESTAMP, 'U', 'SERVICOS', 'SCM', 'SER_CODIGO', OLD.ser_codigo::VARCHAR, NEW.ser_codigo::VARCHAR, NEW.ser_id::VARCHAR, CURRENT_USER::VARCHAR);
+        END IF;
+        IF (OLD.ser_descricao <> NEW.ser_descricao) THEN
+            CALL INSERT_AUDIT(CURRENT_TIMESTAMP::TIMESTAMP, 'U', 'SERVICOS', 'SCM', 'SER_DESCRICAO', OLD.ser_descricao::VARCHAR, NEW.ser_descricao::VARCHAR, NEW.ser_id::VARCHAR, CURRENT_USER::VARCHAR);
+        END IF;
+        IF (OLD.ser_data_inicio <> NEW.ser_data_inicio) THEN
+            CALL INSERT_AUDIT(CURRENT_TIMESTAMP::TIMESTAMP, 'U', 'SERVICOS', 'SCM', 'SER_DATA_INICIO', OLD.ser_data_inicio::VARCHAR, NEW.ser_data_inicio::VARCHAR, NEW.ser_id::VARCHAR, CURRENT_USER::VARCHAR);
+        END IF;
+        IF (OLD.ser_for_id <> NEW.ser_for_id) THEN
+            CALL INSERT_AUDIT(CURRENT_TIMESTAMP::TIMESTAMP, 'U', 'SERVICOS', 'SCM', 'SER_FOR_ID', OLD.ser_for_id::VARCHAR, NEW.ser_for_id::VARCHAR, NEW.ser_id::VARCHAR, CURRENT_USER::VARCHAR);
+        END IF;
+    ELSIF (TG_OP = 'DELETE') THEN
+        CALL INSERT_AUDIT(CURRENT_TIMESTAMP::TIMESTAMP, 'D', 'SERVICOS', 'SCM', NULL, NULL, NULL, OLD.ser_id::VARCHAR, CURRENT_USER::VARCHAR);
+    END IF;
+    RETURN NULL;
+END;
+$internal_proc_tg_audit$ LANGUAGE PLPGSQL;
+
+CREATE TRIGGER tg_servico_audit
+AFTER INSERT OR UPDATE OR DELETE ON SERVICOS
+FOR EACH ROW EXECUTE PROCEDURE proc_tg_servicos_audit();

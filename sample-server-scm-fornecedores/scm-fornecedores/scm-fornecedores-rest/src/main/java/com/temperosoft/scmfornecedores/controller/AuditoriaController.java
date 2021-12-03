@@ -11,27 +11,32 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.temperosoft.scmfornecedores.core.facade.Facade;
-import com.temperosoft.scmfornecedores.domain.Produto;
+import com.temperosoft.scmfornecedores.core.facade.command.CommandContext;
+import com.temperosoft.scmfornecedores.core.facade.command.ICommand;
+import com.temperosoft.scmfornecedores.domain.application.Auditoria;
 
 @RestController
-@RequestMapping("produto")
+@RequestMapping("auditoria")
 @CrossOrigin(origins="*")
-public class ProdutoController {
+public class AuditoriaController {
 
 	@Autowired
-	public Facade facade;
+	private CommandContext cmdCtx;
 	
 	@GetMapping(value="", produces="application/json")
-	public @ResponseBody ResponseEntity<List<Produto>> findAllProdutos() {
-		List<Produto> ps;
+	public @ResponseBody ResponseEntity<List<Auditoria>> findAllAuditoria() {
 		
-		Produto p = new Produto();
-		ps = facade.findAll(p, "CONSULTAR_PRODUTOS");
+		Auditoria a = new Auditoria();
 		
-		if (ps.isEmpty())
+		ICommand cmd = cmdCtx.getCommand("FIND_ALL");
+		
+		@SuppressWarnings("unchecked")
+		List<Auditoria> as = (List<Auditoria>) cmd.execute(a, "CONSULTAR_AUDITORIA");
+		
+		if (as.isEmpty())
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-		return ResponseEntity.ok(ps);
+		return ResponseEntity.ok(as);
+		
 	}
 	
 }

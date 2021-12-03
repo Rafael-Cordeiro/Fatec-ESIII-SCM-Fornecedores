@@ -12,6 +12,7 @@
         <q-route-tab icon="home" to="/" label="Página inicial" />
         <q-route-tab icon="groups" to="/fornecedores" label="Fornecedores" />
         <q-route-tab icon="support_agent" to="/servicos" label="Serviços" />
+        <q-route-tab icon="gavel" to="/auditoria" label="Auditoria" />
       </q-tabs>
     </q-header>
 

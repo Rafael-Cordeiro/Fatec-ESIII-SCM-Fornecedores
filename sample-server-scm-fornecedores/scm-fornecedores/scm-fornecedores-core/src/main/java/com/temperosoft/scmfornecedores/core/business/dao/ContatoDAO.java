@@ -55,6 +55,7 @@ public class ContatoDAO extends AbstractDAO<Contato> {
 		StringBuilder sql = new StringBuilder();
 		
 		sql.append("UPDATE ").append(table).append(" SET ")
+		.append("con_codigo = ?, ")
 		.append("con_ddi = ?, ")
 		.append("con_ddd = ?, ")
 		.append("con_telefone = ?, ")
@@ -66,6 +67,7 @@ public class ContatoDAO extends AbstractDAO<Contato> {
 		.append("WHERE con_id = ?");
 		
 		return (long) getJdbcTemplate().update(sql.toString(),
+				aEntity.getCodigo(),
 				aEntity.getTelefone().getDdi(),
 				aEntity.getTelefone().getDdd(),
 				aEntity.getTelefone().getNumero(),
@@ -80,14 +82,19 @@ public class ContatoDAO extends AbstractDAO<Contato> {
 
 	@Override
 	public Long delete(String status, Long id) throws DataAccessException, Exception {
-		// TODO Auto-generated method stub
-		return null;
+		StringBuilder sql = new StringBuilder();
+		
+		sql.append("DELETE FROM ").append(table)
+		.append(" WHERE ").append(idTable).append(" = ").append(id);
+		
+		return (long) getJdbcTemplate().update(sql.toString());
 	}
 	
 	public Long create(Contato aEntity, Long forId) throws DataAccessException, Exception {
 		StringBuilder sql = new StringBuilder();
 		
 		sql.append("INSERT INTO ").append(table).append(" (")
+		.append("con_codigo, ")
 		.append("con_ddi, ")
 		.append("con_ddd, ")
 		.append("con_telefone, ")
@@ -99,7 +106,7 @@ public class ContatoDAO extends AbstractDAO<Contato> {
 		.append("con_for_id, ")
 		.append("con_tipo_cadastro")
 		.append(") VALUES ")
-		.append("(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+		.append("(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
 		
 		KeyHolder keyHolder = new GeneratedKeyHolder();
 		
@@ -109,16 +116,17 @@ public class ContatoDAO extends AbstractDAO<Contato> {
 			public PreparedStatement createPreparedStatement(Connection con) throws SQLException {
 				PreparedStatement ps = con.prepareStatement(sql.toString(), Statement.RETURN_GENERATED_KEYS);
 				
-				ps.setString(1, aEntity.getTelefone().getDdi());
-				ps.setString(2, aEntity.getTelefone().getDdd());
-				ps.setString(3, aEntity.getTelefone().getNumero());
-				ps.setString(4, aEntity.getTelefone().getRamal());
-				ps.setString(5, aEntity.getTelefone().getTipoTelefone().getDescricao());
-				ps.setString(6, aEntity.getNome());
-				ps.setString(7, aEntity.getEmail());
-				ps.setString(8, aEntity.getDepartamento());
-				ps.setLong(9, forId);
-				ps.setString(10, TipoCadastroEnum.atLiteral(aEntity.getTipoCadastro().getDescricao()).getSymbol());
+				ps.setString(1, aEntity.getCodigo());
+				ps.setString(2, aEntity.getTelefone().getDdi());
+				ps.setString(3, aEntity.getTelefone().getDdd());
+				ps.setString(4, aEntity.getTelefone().getNumero());
+				ps.setString(5, aEntity.getTelefone().getRamal());
+				ps.setString(6, aEntity.getTelefone().getTipoTelefone().getDescricao());
+				ps.setString(7, aEntity.getNome());
+				ps.setString(8, aEntity.getEmail());
+				ps.setString(9, aEntity.getDepartamento());
+				ps.setLong(10, forId);
+				ps.setString(11, TipoCadastroEnum.ATIVO.getSymbol());
 				
 				return ps;
 			}
@@ -132,7 +140,7 @@ public class ContatoDAO extends AbstractDAO<Contato> {
 		StringBuilder sql = new StringBuilder();
 		
 		sql.append("SELECT * FROM ").append(table)
-		.append(" WHERE con_for_id = ").append(forId);
+		.append(" WHERE con_for_id = ").append((forId == null) ? 0 : forId);
 		
 		return getJdbcTemplate().query(sql.toString(), new ContatoRowMapper());
 	}
@@ -145,6 +153,7 @@ public class ContatoDAO extends AbstractDAO<Contato> {
 			Contato contato = new BeanPropertyRowMapper<>(Contato.class).mapRow(rs, rowNum);
 			contato.setId(rs.getLong("con_id"));
 			
+			contato.setCodigo(rs.getString("con_codigo"));			
 			contato.setNome(rs.getString("con_nome"));
 			
 			Telefone telefone = new BeanPropertyRowMapper<>(Telefone.class).mapRow(rs, rowNum);

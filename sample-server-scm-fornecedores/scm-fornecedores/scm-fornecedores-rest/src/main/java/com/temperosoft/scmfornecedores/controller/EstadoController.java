@@ -3,6 +3,7 @@ package com.temperosoft.scmfornecedores.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -31,7 +32,7 @@ public class EstadoController {
 		List<Estado> es = facade.findAll(e, "CONSULTAR_ESTADOS");
 		
 		if (es.isEmpty())
-			return ResponseEntity.unprocessableEntity().build();
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
 		return ResponseEntity.ok(es);
 	}
 	
@@ -45,7 +46,7 @@ public class EstadoController {
 		List<Estado> es = facade.findAll(e, "CONSULTAR_ESTADOS_POR_PAIS");
 		
 		if (es.isEmpty())
-			return ResponseEntity.unprocessableEntity().build();
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
 		return ResponseEntity.ok(es);
 	}
 	

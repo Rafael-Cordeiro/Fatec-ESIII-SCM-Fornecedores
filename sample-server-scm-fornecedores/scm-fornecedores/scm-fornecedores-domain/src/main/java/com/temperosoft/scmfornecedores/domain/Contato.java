@@ -7,6 +7,7 @@ import lombok.Setter;
 @Setter
 public class Contato extends AbstractDomain {
 
+	private String codigo;
 	private String nome;
 	private String email;
 	private String departamento;

@@ -34,10 +34,10 @@ public class ServicoController {
 		Servico s = new Servico();
 		
 		@SuppressWarnings("unchecked")
-		List<Servico> ss = (List<Servico>) cmdCtx.getCommands("FIND_ALL").execute(s, "CONSULTAR_SERVICOS");
+		List<Servico> ss = (List<Servico>) cmdCtx.getCommand("FIND_ALL").execute(s, "CONSULTAR_SERVICOS");
 		
 		if (ss.isEmpty())
-			return ResponseEntity.notFound().build();
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
 		return ResponseEntity.ok(ss);
 		
 	}
@@ -46,7 +46,7 @@ public class ServicoController {
 	public @ResponseBody ResponseEntity<String> createServico(@RequestBody Servico servico) {
 		
 		try {
-			cmdCtx.getCommands("PERSISTS_ENTITY").execute(servico, "PERSISTIR_SERVICO_SALVAR");
+			cmdCtx.getCommand("PERSISTS_ENTITY").execute(servico, "PERSISTIR_SERVICO_SALVAR");
 		} catch (InvalidStrategyConditionException e) {
 			return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(e.getMessage());
 		}
@@ -59,7 +59,7 @@ public class ServicoController {
 		servico.setId(id);
 		
 		try {
-			cmdCtx.getCommands("PERSISTS_ENTITY").execute(servico, "PERSISTIR_SERVICO_ATUALIZAR");
+			cmdCtx.getCommand("PERSISTS_ENTITY").execute(servico, "PERSISTIR_SERVICO_ATUALIZAR");
 		} catch (InvalidStrategyConditionException e) {
 			return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(e.getMessage());
 		}
@@ -73,9 +73,9 @@ public class ServicoController {
 		s.setId(id);
 		
 		try {
-			cmdCtx.getCommands("PERSISTS_ENTITY").execute(s, "EXCLUIR_SERVICO");
+			cmdCtx.getCommand("PERSISTS_ENTITY").execute(s, "EXCLUIR_SERVICO");
 		} catch (InvalidStrategyConditionException e) {
-			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+			return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(e.getMessage());
 		}
 
 		return ResponseEntity.ok().build();

@@ -13,6 +13,7 @@ import com.temperosoft.scmfornecedores.core.business.strategy.FindAllFornecedore
 import com.temperosoft.scmfornecedores.core.business.strategy.FindAllFornecedoresAtivos;
 import com.temperosoft.scmfornecedores.core.business.strategy.FindFornecedorById;
 import com.temperosoft.scmfornecedores.core.business.strategy.GerarCodigoFornecedor;
+import com.temperosoft.scmfornecedores.core.business.strategy.GerarCodigosContatos;
 import com.temperosoft.scmfornecedores.core.business.strategy.PersistirContatosFornecedor;
 import com.temperosoft.scmfornecedores.core.business.strategy.PersistirDocumentoFornecedor;
 import com.temperosoft.scmfornecedores.core.business.strategy.PersistirFornecedor;
@@ -63,6 +64,9 @@ public class FornecedorNavigation {
 	@Autowired
 	private FindAllFornecedoresAtivos findAllFornecedoresAtivos;
 	
+	@Autowired
+	private GerarCodigosContatos gerarCodigosContatos;
+	
 	@Bean(name="PERSISTE_FORNECEDOR_SALVAR")
 	public Navigation<Fornecedor> persistirFornecedorSalvar() {
 		return new NavigationBuilder<Fornecedor>()
@@ -72,6 +76,7 @@ public class FornecedorNavigation {
 				.next(definirEntidadeAtiva)
 				.next(persistirFornecedor)
 				.next(persistirRelacoesFornecedorProduto)
+				.next(gerarCodigosContatos)
 				.next(persistirContatosFornecedor)
 				.next(persistirDocumentoFornecedor)
 				.build();
@@ -84,6 +89,7 @@ public class FornecedorNavigation {
 				.next(validarCNPJUnico)
 				.next(persistirFornecedor)
 				.next(persistirRelacoesFornecedorProduto)
+				.next(gerarCodigosContatos)
 				.next(persistirContatosFornecedor)
 				.next(persistirDocumentoFornecedor)
 				.build();

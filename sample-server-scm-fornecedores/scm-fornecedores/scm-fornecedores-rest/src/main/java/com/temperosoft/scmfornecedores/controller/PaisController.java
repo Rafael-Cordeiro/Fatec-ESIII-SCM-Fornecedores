@@ -3,6 +3,7 @@ package com.temperosoft.scmfornecedores.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -29,7 +30,7 @@ public class PaisController {
 		List<Pais> cs = facade.findAll(c, "CONSULTAR_PAISES");
 		
 		if (cs.isEmpty())
-			return ResponseEntity.unprocessableEntity().build();
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
 		return ResponseEntity.ok(cs);
 	}
 	

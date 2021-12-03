@@ -51,7 +51,7 @@ public class CommandContext {
 		return INSTANCE;
 	}
 	
-	public synchronized ICommand getCommands(String key) {
+	public synchronized ICommand getCommand(String key) {
 		Map<String, ICommand> commands = getInstance();
 		return commands.get(key);
 	}

@@ -78,7 +78,7 @@ public class ServicoDAO extends AbstractDAO<Servico> {
 				
 				ps.setString(1, aEntity.getCodigo());
 				ps.setString(2, aEntity.getDescricao());
-				ps.setDate(3, new java.sql.Date(aEntity.getDataInicio().getTime()));
+				ps.setDate(3, new java.sql.Date(aEntity.getDataInicio().getTime() + (1000 * 60 * 60 * 24)));
 				ps.setLong(4, aEntity.getFornecedor().getId());
 				
 				return ps;
@@ -105,7 +105,7 @@ public class ServicoDAO extends AbstractDAO<Servico> {
 		return (long) getJdbcTemplate().update(sql.toString(),
 				aEntity.getCodigo(),
 				aEntity.getDescricao(),
-				new java.sql.Date(aEntity.getDataInicio().getTime()),
+				new java.sql.Date(aEntity.getDataInicio().getTime() + (1000 * 60 * 60 * 24)),
 				aEntity.getFornecedor().getId(),
 				aEntity.getId()
 		);

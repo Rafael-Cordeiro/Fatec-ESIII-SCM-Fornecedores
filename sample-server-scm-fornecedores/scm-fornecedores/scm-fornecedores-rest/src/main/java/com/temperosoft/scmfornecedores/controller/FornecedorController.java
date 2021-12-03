@@ -34,13 +34,13 @@ public class FornecedorController {
 		
 		Fornecedor f = new Fornecedor();
 		
-		ICommand cmd = cmdCtx.getCommands("FIND_ALL");
+		ICommand cmd = cmdCtx.getCommand("FIND_ALL");
 
 		@SuppressWarnings("unchecked")
 		List<Fornecedor> fs = (List<Fornecedor>) cmd.execute(f, "CONSULTAR_FORNECEDORES");
 		
 		if (fs.isEmpty())
-			return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).build();
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
 		return ResponseEntity.ok(fs);
 	}
 	
@@ -50,19 +50,19 @@ public class FornecedorController {
 		Fornecedor f = new Fornecedor();
 		f.setId(id);
 		
-		ICommand cmd = cmdCtx.getCommands("FIND_BY_ID");
+		ICommand cmd = cmdCtx.getCommand("FIND_BY_ID");
 		
 		f = (Fornecedor) cmd.execute(f, "CONSULTAR_FORNECEDOR_POR_ID");
 		
 		if (f == null)
-			return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).build();
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
 		return ResponseEntity.ok(f);
 	}
 	
 	@PostMapping(value="", produces="application/json")
 	public @ResponseBody ResponseEntity<String> createFornecedor(@RequestBody Fornecedor fornecedor) {
 		
-		ICommand cmd = cmdCtx.getCommands("PERSISTS_ENTITY");
+		ICommand cmd = cmdCtx.getCommand("PERSISTS_ENTITY");
 		
 		try {
 			cmd.execute(fornecedor, "PERSISTE_FORNECEDOR_SALVAR");
@@ -77,7 +77,7 @@ public class FornecedorController {
 		
 		fornecedor.setId(id);
 		
-		ICommand cmd = cmdCtx.getCommands("PERSISTS_ENTITY");
+		ICommand cmd = cmdCtx.getCommand("PERSISTS_ENTITY");
 		
 		try {
 			cmd.execute(fornecedor, "PERSISTE_FORNECEDOR_ATUALIZAR");
@@ -93,7 +93,7 @@ public class FornecedorController {
 		Fornecedor f = new Fornecedor();
 		f.setId(id);
 		
-		ICommand cmd = cmdCtx.getCommands("INACTIVATE_ENTITY");
+		ICommand cmd = cmdCtx.getCommand("INACTIVATE_ENTITY");
 		
 		try {
 			cmd.execute(f, "DESATIVAR_FORNECEDOR");
@@ -111,7 +111,7 @@ public class FornecedorController {
 		Fornecedor f = new Fornecedor();
 		f.setId(id);
 		
-		ICommand cmd = cmdCtx.getCommands("ACTIVATE_ENTITY");
+		ICommand cmd = cmdCtx.getCommand("ACTIVATE_ENTITY");
 		
 		try {
 			cmd.execute(f, "ATIVAR_FORNECEDOR");
@@ -127,13 +127,13 @@ public class FornecedorController {
 		
 		Fornecedor f = new Fornecedor();
 		
-		ICommand cmd = cmdCtx.getCommands("FIND_ALL");
+		ICommand cmd = cmdCtx.getCommand("FIND_ALL");
 
 		@SuppressWarnings("unchecked")
 		List<Fornecedor> fs = (List<Fornecedor>) cmd.execute(f, "CONSULTAR_FORNECEDORES_ATIVOS");
 		
 		if (fs.isEmpty())
-			return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).build();
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
 		return ResponseEntity.ok(fs);
 	}
 

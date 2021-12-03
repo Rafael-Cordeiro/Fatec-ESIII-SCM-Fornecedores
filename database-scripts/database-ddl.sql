@@ -69,6 +69,7 @@ CREATE TABLE FORNECEDORES (
 -- 5
 CREATE TABLE CONTATOS (
 	con_id            SERIAL       NOT NULL,
+	con_codigo        VARCHAR(50)  NOT NULL,
 	con_ddi           VARCHAR(4)   NOT NULL,
 	con_ddd           VARCHAR(3)   NOT NULL,
 	con_telefone      VARCHAR(20)  NOT NULL,
@@ -82,6 +83,7 @@ CREATE TABLE CONTATOS (
 	CONSTRAINT PK_CON PRIMARY KEY (con_id),
 	CONSTRAINT FK_CON_FOR FOREIGN KEY (con_for_id)
 		REFERENCES FORNECEDORES (for_id),
+	CONSTRAINT UK_CON_01 UNIQUE (con_codigo),
 	CONSTRAINT CK_CON_01 CHECK (con_tipo_cadastro IN ('R','A','I'))
 );
 

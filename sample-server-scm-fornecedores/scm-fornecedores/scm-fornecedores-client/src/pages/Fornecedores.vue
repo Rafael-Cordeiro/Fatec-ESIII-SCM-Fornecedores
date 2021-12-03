@@ -376,7 +376,7 @@
                   </q-card-section>
                 </q-tab-panel>
                 <q-tab-panel name="tab-contatos">
-                  <q-card-section v-for="contato in fornecedor.contatos" :key="contato.index">
+                  <q-card-section v-for="(contato, index) in fornecedor.contatos" :key="contato.index">
                     <q-card-section class="row">
                       <q-input
                         outlined
@@ -430,11 +430,12 @@
                         :options="comboTipoTelefone"
                         option-label="descricao"
                       />
+                      <q-btn flat rounded color="negative" label="Remover este contato" @click="removerContato(index)" icon="remove"/>
                     </q-card-section>
                     <q-separator/>
                   </q-card-section>
                   <q-card-actions class="row" align="center">
-                    <q-btn flat rounded color="negative" label="Remover contato" @click="removerContato" icon="remove"/>
+                    <q-btn flat rounded color="negative" label="Remover contato" @click="PopContato" icon="remove"/>
                     <q-btn flat rounded color="indigo-10" label="Adicionar contato" @click="adicionarContato" icon="add"/>
                   </q-card-actions>
                 </q-tab-panel>
@@ -511,6 +512,7 @@ export default defineComponent({
       filtroNomeContato: '',
       // =============== dados de lista ===============
       contatoColumns: [
+        { name: 'codigo', label: 'Código', field: 'codigo', align: 'left', sortable: true },
         { name: 'nome', label: 'Nome', field: 'nome', align: 'left', sortable: true },
         { name: 'email', label: 'Email', field: 'email', align: 'left', sortable: true },
         { name: 'departamento', label: 'Departamento', field: 'departamento', align: 'left', sortable: true },
@@ -660,6 +662,7 @@ export default defineComponent({
       },
       Contato () {
         return {
+          codigo: '',
           nome: '',
           email: '',
           departamento: '',
@@ -856,6 +859,7 @@ export default defineComponent({
       this.contatosTable = fornecedor.contatos.map(contato => {
         return {
           ...contato,
+          codigo: contato.codigo,
           nome: contato.nome,
           email: contato.email,
           departamento: contato.departamento,
@@ -953,8 +957,11 @@ export default defineComponent({
     adicionarContato () {
       this.fornecedor.contatos.push(this.Contato())
     },
-    removerContato () {
+    PopContato () {
       this.fornecedor.contatos.pop()
+    },
+    removerContato (index) {
+      this.fornecedor.contatos.splice(index, 1)
     },
     inserirFornecedor () {
       console.log('insere')
