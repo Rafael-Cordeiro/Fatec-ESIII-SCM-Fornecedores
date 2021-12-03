@@ -33,7 +33,7 @@ public class ValidarCNPJUnico implements IStrategy<Fornecedor> {
 			if (documentoDAO.verificarExistenciaDocumento("cnpj", documento.getCodigo(), ValidationUtils.returnIdOrNull(aEntity)))
 				aCase.suspendExecution("CNPJ já existe no sistema");
 			
-			logger.info("CNPJ {} consultado", documento);
+			logger.info("CNPJ {} consultado", documento.getCodigo());
 		} catch (Exception e) {
 			logger.error("Erro ao consultar existência de CNPJ",e);
 		}

@@ -121,7 +121,7 @@ public class DocumentoDAO extends AbstractDAO<Documento> {
 				.append("FROM DOCUMENTOS ")
 				.append("WHERE doc_tipo = '").append(tipo).append("' ")
 				.append("AND doc_codigo = '").append(codigo).append("' ")
-				.append("AND doc_for_id <> '").append(forId).append("' ")
+				.append((forId == null) ? "" : "AND doc_for_id <> '" + forId + "' ")
 			.append(") ")
 			.append("THEN TRUE ")
 			.append("ELSE FALSE ")
