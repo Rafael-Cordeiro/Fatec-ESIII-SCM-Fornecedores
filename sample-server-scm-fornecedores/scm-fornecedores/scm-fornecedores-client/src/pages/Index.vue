@@ -10,7 +10,7 @@
       <li>Business Case Executor (BCE)</li>
       <li>Logger Slf4j</li>
       <li>Lombok</li>
-      <li>Vue.js / Quasar</li>
+      <li>Vue.js / Quasar Framework</li>
       <li>Banco de dados PostgreSQL</li>
     </ul>
   </q-page>

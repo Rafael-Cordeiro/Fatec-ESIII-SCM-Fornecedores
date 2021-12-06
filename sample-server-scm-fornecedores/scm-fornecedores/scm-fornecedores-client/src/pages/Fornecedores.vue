@@ -1,12 +1,14 @@
 <template>
-  <q-page class="container q-pa-xl">
-    <span>Listar</span>
-    <q-toggle
-      color="indigo-10"
-      v-model="insertUpdateDialog"
-      size="xl"
-    />
-    <span>Inserir</span>
+  <q-page padding>
+    <div class="q-ma-xl">
+      <span>Listar</span>
+      <q-toggle
+        color="indigo-10"
+        v-model="insertUpdateDialog"
+        size="xl"
+      />
+      <span>Inserir</span>
+    </div>
     <!-- LISTA DE FORNECEDORES -->
     <div class="row q-col-gutter-md">
       <div class="col-3" v-if="!insertUpdateDialog">
@@ -267,6 +269,7 @@
                       class="col-md-3 q-pa-md"
                       label="CNPJ"
                       v-model="fornecedor.documentos[0].codigo"
+                      mask="##.###.###/####-##"
                     />
                     <q-input
                       outlined
@@ -325,6 +328,7 @@
                       label="CEP"
                       v-model="fornecedor.endereco.cep"
                       :disable="disallowEnderecoFields"
+                      mask="#####-###"
                     />
                   </q-card-section>
                   <q-card-section class="row">
@@ -406,12 +410,14 @@
                         class="col-md-1 q-pa-md"
                         label="DDI"
                         v-model="contato.telefone.ddi"
+                        mask="+##"
                       />
                       <q-input
                         outlined
                         class="col-md-1 q-pa-md"
                         label="DDD"
                         v-model="contato.telefone.ddd"
+                        mask="###"
                       />
                       <q-input
                         outlined

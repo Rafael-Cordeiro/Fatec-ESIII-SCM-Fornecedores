@@ -1,5 +1,5 @@
 <template>
-  <q-page class="container q-pa-xl">
+  <q-page padding>
     <q-table
       :columns="colunasTabelaAuditoria"
       :rows="tabelaAuditoria"
