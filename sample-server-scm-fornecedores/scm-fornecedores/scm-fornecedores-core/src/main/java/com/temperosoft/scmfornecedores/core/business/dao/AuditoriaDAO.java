@@ -25,7 +25,8 @@ public class AuditoriaDAO extends AbstractDAO<Auditoria> {
 	public List<Auditoria> findAll() {
 		StringBuilder sql = new StringBuilder();
 		
-		sql.append("SELECT * FROM ").append(table);
+		sql.append("SELECT * FROM ").append(table)
+		.append(" ORDER BY aud_dt_hora DESC");
 
 		return getJdbcTemplate().query(sql.toString(), new AuditoriaRowMapper());
 	}
