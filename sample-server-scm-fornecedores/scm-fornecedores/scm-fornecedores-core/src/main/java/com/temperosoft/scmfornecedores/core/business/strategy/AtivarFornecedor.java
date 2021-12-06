@@ -23,7 +23,7 @@ public class AtivarFornecedor implements IStrategy<Fornecedor> {
 		
 		try {
 			fornecedorDAO.activate(aEntity);
-			logger.info("Fornecedor " + aEntity.getCodigo() + " ativado");
+			logger.info("Fornecedor {} ativado", aEntity.getCodigo());
 		} catch (Exception e) {
 			Log.suspendExecutionThenLogException("Erro ao ativar fornecedor", AtivarFornecedor.class, aCase, e);
 		}

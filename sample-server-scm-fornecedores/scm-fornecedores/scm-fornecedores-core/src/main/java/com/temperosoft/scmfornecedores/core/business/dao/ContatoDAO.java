@@ -79,16 +79,6 @@ public class ContatoDAO extends AbstractDAO<Contato> {
 				aEntity.getId()
 		);
 	}
-
-	@Override
-	public Long delete(String status, Long id) throws DataAccessException, Exception {
-		StringBuilder sql = new StringBuilder();
-		
-		sql.append("DELETE FROM ").append(table)
-		.append(" WHERE ").append(idTable).append(" = ").append(id);
-		
-		return (long) getJdbcTemplate().update(sql.toString());
-	}
 	
 	public Long create(Contato aEntity, Long forId) throws DataAccessException, Exception {
 		StringBuilder sql = new StringBuilder();

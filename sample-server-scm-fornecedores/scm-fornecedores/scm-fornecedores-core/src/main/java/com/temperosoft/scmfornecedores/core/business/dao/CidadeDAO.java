@@ -82,12 +82,6 @@ public class CidadeDAO extends AbstractDAO<Cidade> {
 		return null;
 	}
 	
-	@Override
-	public Long delete(String status, Long id) throws DataAccessException, Exception {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	
 	class CidadeRowMapper implements RowMapper<Cidade> {
 		
 		@Override

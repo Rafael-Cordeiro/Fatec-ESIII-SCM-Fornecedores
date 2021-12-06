@@ -23,7 +23,7 @@ public class DesativarFornecedor implements IStrategy<Fornecedor> {
 		
 		try {
 			fornecedorDAO.inactivate(aEntity);
-			logger.info("Fornecedor " + aEntity.getCodigo() + " inativado");
+			logger.info("Fornecedor {} inativado", aEntity.getCodigo());
 		} catch (Exception e) {
 			Log.suspendExecutionThenLogException("Erro ao desativar fornecedor", DesativarFornecedor.class, aCase, e);
 		}

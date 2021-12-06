@@ -110,17 +110,6 @@ public class ServicoDAO extends AbstractDAO<Servico> {
 				aEntity.getId()
 		);
 	}
-
-	@Override
-	public Long delete(String status, Long id) throws DataAccessException, Exception {
-		StringBuilder sql = new StringBuilder();
-		
-		sql.append("DELETE FROM ").append(table)
-		.append(" WHERE ser_id = ?");
-		
-		return (long) getJdbcTemplate().update(sql.toString(), id);
-	}
-	
 	
 	class ServicoRowMapper implements RowMapper<Servico> {
 		

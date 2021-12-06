@@ -10,6 +10,7 @@
     <!-- LISTA DE FORNECEDORES -->
     <div class="row q-col-gutter-md">
       <div class="col-3" v-if="!insertUpdateDialog">
+        <!-- Form Filtro -->
         <q-card class="bg-indigo-10 text-white">
           <q-card-section>
             <span class="big-text">Filtrar</span>
@@ -82,6 +83,7 @@
         </q-card>
       </div>
       <div class="col-9" v-if="!insertUpdateDialog">
+        <!-- Modal de consulta -->
         <q-dialog
           v-model="viewDialog"
           :maximized="maximizedToggle"
@@ -229,9 +231,10 @@
           </template>
         </q-table>
       </div>
+      <!-- Form Insert / Update -->
       <div class="col-12" v-else>
         <q-card class="card-insert-form">
-          <q-form @submit="inserirFornecedor"></q-form>
+          <q-form></q-form>
           <!-- TABS - INSERÇÃO -->
           <q-form>
             <q-card-section class="items-center">
@@ -840,7 +843,6 @@ export default defineComponent({
       if (fornecedor.tipoCadastro.descricao !== 'INATIVO') {
         this.isUpdate = true
         this.insertUpdateDialog = true
-        console.log(fornecedor)
         fornecedor.produtos = fornecedor.produtos.map(produto => {
           return {
             ...produto,
@@ -896,7 +898,8 @@ export default defineComponent({
               color: 'positive',
               icon: 'check_circle_outline'
             })
-            document.location.reload(true)
+            this.fetchFornecedores()
+            this.insertUpdateDialog = false
           }).catch(error => {
             console.log(error.response.data)
             this.$q.notify({
@@ -963,9 +966,6 @@ export default defineComponent({
     removerContato (index) {
       this.fornecedor.contatos.splice(index, 1)
     },
-    inserirFornecedor () {
-      console.log('insere')
-    },
     createComboBoxes () {
       this.createPaisComboBox()
       this.createProdutosComboBox()
@@ -1009,7 +1009,7 @@ export default defineComponent({
         })
     },
     fetchProdutos () {
-      this.$axios.get('http://localhost:9999/api/produto/')
+      this.$axios.get('http://localhost:9999/api/produto/ativos')
         .then((res) => {
           this.comboProdutos = res.data.map(res => {
             return {

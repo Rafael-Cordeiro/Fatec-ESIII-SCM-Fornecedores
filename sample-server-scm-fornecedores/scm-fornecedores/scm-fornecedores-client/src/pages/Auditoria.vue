@@ -56,7 +56,20 @@ export default defineComponent({
     fetchAuditoria () {
       this.$axios.get('http://localhost:9999/api/auditoria/')
         .then(res => {
-          this.tabelaAuditoria = res.data
+          this.tabelaAuditoria = res.data.map(aud => {
+            return {
+              id: null,
+              dtHora: aud.dtHora,
+              evento: aud.evento,
+              tabela: aud.tabela,
+              owner: aud.owner,
+              coluna: (aud.coluna),
+              oldValue: aud.oldValue,
+              newValue: aud.newValue,
+              identificador: aud.identificador,
+              bdUser: aud.bdUser
+            }
+          })
         })
         .catch(error => {
           console.log(error.response.data)

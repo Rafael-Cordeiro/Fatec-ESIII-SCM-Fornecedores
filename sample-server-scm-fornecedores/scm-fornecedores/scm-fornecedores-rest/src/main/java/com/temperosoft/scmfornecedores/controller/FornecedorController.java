@@ -65,9 +65,9 @@ public class FornecedorController {
 		ICommand cmd = cmdCtx.getCommand("PERSISTS_ENTITY");
 		
 		try {
-			cmd.execute(fornecedor, "PERSISTE_FORNECEDOR_SALVAR");
+			cmd.execute(fornecedor, "PERSISTIR_FORNECEDOR_SALVAR");
 		} catch (InvalidStrategyConditionException e) {
-			return ResponseEntity.unprocessableEntity().body(e.getMessage());
+			return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(e.getMessage());
 		}
 		return ResponseEntity.ok().build();
 	}
@@ -80,7 +80,7 @@ public class FornecedorController {
 		ICommand cmd = cmdCtx.getCommand("PERSISTS_ENTITY");
 		
 		try {
-			cmd.execute(fornecedor, "PERSISTE_FORNECEDOR_ATUALIZAR");
+			cmd.execute(fornecedor, "PERSISTIR_FORNECEDOR_ATUALIZAR");
 		} catch (InvalidStrategyConditionException e) {
 			return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(e.getMessage());
 		}

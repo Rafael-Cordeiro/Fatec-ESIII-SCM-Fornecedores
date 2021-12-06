@@ -38,6 +38,16 @@ public abstract class AbstractDAO<T extends AbstractDomain> implements IDAO<T> {
 	}
 	
 	@Override
+	public Long delete(String status, Long id) throws DataAccessException, Exception {
+		StringBuilder sql = new StringBuilder();
+		
+		sql.append("DELETE FROM ").append(table)
+		.append(" WHERE ").append(idTable).append(" = ?");
+		
+		return (long) getJdbcTemplate().update(sql.toString(), id);
+	}
+	
+	@Override
 	public void inactivate(T aEntity) throws DataAccessException, Exception {
 		getJdbcTemplate().update(updateStatusQuery(), TipoCadastroEnum.INATIVO.getSymbol(), ValidationUtils.returnIdOrNull(aEntity));
 		

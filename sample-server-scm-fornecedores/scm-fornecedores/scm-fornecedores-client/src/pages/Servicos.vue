@@ -21,7 +21,7 @@
               color="indigo-10"
               size="sm"
               dense
-              v-model="props.row.fornecedor"
+              v-model="props.row.servico"
               @click="openUpdateDialog(props.row.servico)"
             />
             <q-btn
@@ -72,11 +72,19 @@
           </q-card-section>
           <q-card-actions align="center" class="q-pa-md" id="insert-action-btn">
             <q-btn
-                label="Salvar serviço"
-                class="q-px-xl"
-                color="indigo-10"
-                @click="submitServico"
-              />
+              v-if="!isUpdate"
+              label="Inserir"
+              class="q-px-xl"
+              color="indigo-10"
+              @click="submitServico"
+            />
+            <q-btn
+              v-else
+              label="Atualizar"
+              class="q-px-xl"
+              color="indigo-10"
+              @click="submitServico"
+            />
           </q-card-actions>
         </q-form>
       </q-card>
@@ -284,8 +292,45 @@ export default defineComponent({
     submitServico () {
       this.servico.dataInicio = this.servico.dataInicio.replace('/', '-')
       this.servico.dataInicio = this.servico.dataInicio.replace('/', '-')
-      this.$axios.post('http://localhost:9999/api/servico/', this.servico)
-      document.location.reload(true)
+      if (this.isUpdate) {
+        this.$axios.put(`http://localhost:9999/api/servico/${this.servico.id}`, this.servico)
+          .then(res => {
+            this.$q.notify({
+              message: 'Cadastro realizado com sucesso',
+              color: 'positive',
+              icon: 'check_circle_outline'
+            })
+            this.fetchServicos()
+            this.insertUpdateDialog = false
+            this.isUpdate = false
+            location.reload(true)
+          }).catch(error => {
+            console.log(error.response.data)
+            this.$q.notify({
+              message: error.response.data,
+              color: 'negative',
+              icon: 'error_outline'
+            })
+          })
+      } else {
+        this.$axios.post('http://localhost:9999/api/servico/', this.servico)
+          .then(res => {
+            this.$q.notify({
+              message: 'Cadastro realizado com sucesso',
+              color: 'positive',
+              icon: 'check_circle_outline'
+            })
+            this.fetchServicos()
+            this.insertUpdateDialog = false
+          }).catch(error => {
+            console.log(error.response.data)
+            this.$q.notify({
+              message: error.response.data,
+              color: 'negative',
+              icon: 'error_outline'
+            })
+          })
+      }
     },
     mountFornecedorTableData (servicos) {
       this.listaServicos = servicos.map((servico) => {
@@ -300,7 +345,6 @@ export default defineComponent({
           fornecedor: servico.fornecedor.nomeFantasia
         }
       })
-      console.log(this.listaFornecedores)
     },
     fetchServicos () {
       this.servicos = this.Servico()
@@ -327,3 +371,30 @@ export default defineComponent({
   }
 })
 </script>
+
+<style lang="sass">
+.my-sticky-header-table
+  /* height or max-height is important */
+  height: 500px
+
+  .q-table__top,
+  .q-table__bottom,
+  thead tr:first-child th
+    /* bg color is important for th; just specify one */
+    background-color: #c5cae9
+
+  thead tr th
+    position: sticky
+    z-index: 1
+  thead tr:first-child th
+    top: 0
+
+  /* this is when the loading indicator appears */
+  &.q-table--loading thead tr:last-child th
+    /* height of all previous header rows */
+    top: 48px
+.big-text
+  font-size: 24px
+.mid-text
+  font-size: 18px
+</style>

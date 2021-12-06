@@ -63,12 +63,6 @@ public class DocumentoDAO extends AbstractDAO<Documento> {
 				aEntity.getId()
 		);
 	}
-
-	@Override
-	public Long delete(String status, Long id) throws DataAccessException, Exception {
-		// TODO Auto-generated method stub
-		return null;
-	}
 	
 	public Long create(Documento aEntity, Long forId) throws DataAccessException, Exception {
 		StringBuilder sql = new StringBuilder();

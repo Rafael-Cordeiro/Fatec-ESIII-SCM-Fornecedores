@@ -67,7 +67,7 @@ public class FornecedorNavigation {
 	@Autowired
 	private GerarCodigosContatos gerarCodigosContatos;
 	
-	@Bean(name="PERSISTE_FORNECEDOR_SALVAR")
+	@Bean(name="PERSISTIR_FORNECEDOR_SALVAR")
 	public Navigation<Fornecedor> persistirFornecedorSalvar() {
 		return new NavigationBuilder<Fornecedor>()
 				.next(validarFormularioFornecedor)
@@ -82,7 +82,7 @@ public class FornecedorNavigation {
 				.build();
 	}
 	
-	@Bean(name="PERSISTE_FORNECEDOR_ATUALIZAR")
+	@Bean(name="PERSISTIR_FORNECEDOR_ATUALIZAR")
 	public Navigation<Fornecedor> persistirFornecedorAtualizar() {
 		return new NavigationBuilder<Fornecedor>()
 				.next(validarFormularioFornecedor)

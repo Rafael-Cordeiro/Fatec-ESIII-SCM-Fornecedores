@@ -165,11 +165,6 @@ public class FornecedorDAO extends AbstractDAO<Fornecedor> {
 		);
 	}
 	
-	@Override
-	public Long delete(String status, Long id) throws DataAccessException, Exception {
-		return (long) getJdbcTemplate().update(updateStatusQuery(), TipoCadastroEnum.atLiteral(status).getSymbol(), id);
-	}
-	
 	public Long createProdutoRelation(Long forId, Long proId) throws DataAccessException, Exception {
 		
 		StringBuilder sql = new StringBuilder();

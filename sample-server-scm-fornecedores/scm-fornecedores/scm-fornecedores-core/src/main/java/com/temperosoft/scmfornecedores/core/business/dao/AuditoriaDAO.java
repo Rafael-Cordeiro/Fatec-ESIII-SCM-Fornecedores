@@ -66,6 +66,7 @@ public class AuditoriaDAO extends AbstractDAO<Auditoria> {
 			auditoria.setEvento(rs.getString("aud_evento"));
 			auditoria.setTabela(rs.getString("aud_tabela"));
 			auditoria.setOwner(rs.getString("aud_owner"));
+			auditoria.setColuna(rs.getString("aud_coluna"));
 			auditoria.setOldValue(rs.getString("aud_old"));
 			auditoria.setNewValue(rs.getString("aud_new"));
 			auditoria.setIdentificador(rs.getString("aud_identificador"));
