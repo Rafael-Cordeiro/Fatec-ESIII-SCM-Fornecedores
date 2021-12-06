@@ -19,6 +19,7 @@ import com.temperosoft.scmfornecedores.core.business.strategy.PersistirDocumento
 import com.temperosoft.scmfornecedores.core.business.strategy.PersistirFornecedor;
 import com.temperosoft.scmfornecedores.core.business.strategy.PersistirRelacoesFornecedorProduto;
 import com.temperosoft.scmfornecedores.core.business.strategy.ValidarCNPJUnico;
+import com.temperosoft.scmfornecedores.core.business.strategy.ValidarDigitosVerificadoresCNPJ;
 import com.temperosoft.scmfornecedores.core.business.strategy.ValidarFormularioFornecedor;
 import com.temperosoft.scmfornecedores.domain.Fornecedor;
 
@@ -67,10 +68,14 @@ public class FornecedorNavigation {
 	@Autowired
 	private GerarCodigosContatos gerarCodigosContatos;
 	
+	@Autowired
+	private ValidarDigitosVerificadoresCNPJ validarDigitosVerificadoresCNPJ;
+	
 	@Bean(name="PERSISTIR_FORNECEDOR_SALVAR")
 	public Navigation<Fornecedor> persistirFornecedorSalvar() {
 		return new NavigationBuilder<Fornecedor>()
 				.next(validarFormularioFornecedor)
+				.next(validarDigitosVerificadoresCNPJ)
 				.next(validarCNPJUnico)
 				.next(gerarCodigoFornecedor)
 				.next(definirEntidadeAtiva)
